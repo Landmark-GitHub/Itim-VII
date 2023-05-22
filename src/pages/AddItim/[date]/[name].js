@@ -8,20 +8,22 @@ export default function DynamicPage() {
 
   const router = useRouter();
   const [activity, setActivity] = useState(router.query.activity || 'Uco');
-  const [date, setDate] = useState(router.query.date || '');
-  const [name, setName] = useState(router.query.name || '');
+  const [date, setDate] = useState(router.query.date);
+  const [name, setName] = useState(router.query.name);
 
   return (
     <>
       <Layout
-        name = {router.query.name}
+        name = {name}
         setName = {setName}
-        date = {router.query.date}
+        date = {date}
         setDate = {setDate}
-        activity = {router.query.activity }
+        activity = {activity }
       >
           <div className=''>
             <h1>AddItim Page </h1>
+            <h1>Date : {date}</h1>
+            <h1>Name : {name}</h1>
             <h1>status : {activity}</h1>
           </div>
       </Layout>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import NavMember from './NavMember';
 import Header from './Header';
 
 const LayoutAddItim = ({ children, ...props }) => {
@@ -13,11 +14,18 @@ const LayoutAddItim = ({ children, ...props }) => {
         setOpenMenu(!openMenu);
     };
 
+    useEffect(() => {
+
+    },[date,setDate])
+
     return (
         <main className='flex h-screen w-screen'>
             <div className={`${openMenu ? 'w-3/12' : 'w-0 opacity-0 translate-x-(-28)'} overflow-hidden duration-300`}>
-                NavMember
-                {name}
+                <NavMember
+                    name = {name}
+                    setName = {setName}
+                    date = {props.date}
+                />
             </div>
 
             <div className={`${openMenu ? 'w-9/12' : 'w-full'} duration-300 h-screen`}>

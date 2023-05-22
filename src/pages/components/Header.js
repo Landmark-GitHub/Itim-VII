@@ -10,7 +10,7 @@ const HeaderAddItim = (props) => {
     const temp = e.target.value;
     props.setDate(temp);
 
-    if (date) {
+    if (date && name) {
       router.push({
         pathname: `/AddItim/[date]/[name]`,
         query: { date: temp, name },
@@ -24,11 +24,11 @@ const HeaderAddItim = (props) => {
         <div className='p-2'>
           <label className={`text-gray-800 text-4xl`}>{name}</label>
           <br />
-          <label className='text-2xl'>{date || ''}</label>
+          <label className='text-2xl'>{date}</label>
           <label className='text-2xl'>  Status : {activity}</label>
         </div>
 
-        <input type='date' value={date || ''} onChange={settingDate} />
+        <input type='date' value={date} onChange={settingDate} />
       </div>
       <div className="flex justify-between">
         <div
