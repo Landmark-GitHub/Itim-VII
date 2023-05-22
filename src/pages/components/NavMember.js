@@ -1,11 +1,12 @@
 import React from 'react'
 
-const index = () => {
+const NavMember = (props) => {
+
   return (
     <div>
-      <h1> 123 </h1>
+      
     </div>
   )
 }
 
-export default index
+export default NavMember
