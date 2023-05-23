@@ -4,10 +4,7 @@ import Header from './Header';
 
 const LayoutAddItim = ({ children, ...props }) => {
 
-    const date = props.date;
-    const setDate = props.setDate
-    const name = props.name;
-    const setName = props.setName;
+
     const [openMenu, setOpenMenu] = useState(true);
 
     const toggleMenu = () => {
@@ -16,24 +13,17 @@ const LayoutAddItim = ({ children, ...props }) => {
 
     useEffect(() => {
 
-    },[date,setDate])
+    },[])
 
     return (
         <main className='flex h-screen w-screen'>
             <div className={`${openMenu ? 'w-3/12' : 'w-0 opacity-0 translate-x-(-28)'} overflow-hidden duration-300`}>
                 <NavMember
-                    name = {name}
-                    setName = {setName}
-                    date = {props.date}
                 />
             </div>
 
             <div className={`${openMenu ? 'w-9/12' : 'w-full'} duration-300 h-screen`}>
                 <Header
-                    date = {date}
-                    setDate = {setDate}
-                    name = {name}
-                    
                 >
                 </Header>
                 {children}

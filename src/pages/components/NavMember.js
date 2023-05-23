@@ -37,10 +37,10 @@ const NavMember = (props) => {
 
     if (name) {
       const date = props.date
-      router.push({
-        pathname: `/AddItim/[date]/[name]`,
-        query: { date, name },
-      });
+      // router.push({
+      //   pathname: `/AddItim/[date]/[name]`,
+      //   query: { date, name },
+      // });
     }
 
   }
