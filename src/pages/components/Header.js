@@ -13,12 +13,6 @@ const HeaderAddItim = () => {
     const temp = e.target.value;
     router.push(`/${activity}/${temp}/${name}`)
 
-    // if (date && name) {
-    //   router.push({
-    //     pathname: `/AddItim/[date]/[name]`,
-    //     query: { date: temp, name },
-    //   });
-    // }
   };
 
   const settingStatus = (text) => {

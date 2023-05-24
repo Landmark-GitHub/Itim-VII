@@ -29,9 +29,10 @@ const ListItim = () => {
         // console.log('Open modal');
         // C:\Users\LandMark\Desktop\PROJUCT\Itim-VII\src\pages\[activity]\[date]\[name]\saveitim.js
         // router.push(`/${activity}/${date}/${name}/${nameitim}`)
+        // C:\Users\LandMark\Desktop\PROJUCT\Itim-VII\src\pages\[activity]\[date]\[name]\saveitim\saveitim.js
         router.push({
             pathname: `/${activity}/${date}/${name}/saveitim`,
-            query: { nameitim, typeitim, pieceitim},
+            query: { nameitim, typeitim, pieceitim },
           });
     }
 
