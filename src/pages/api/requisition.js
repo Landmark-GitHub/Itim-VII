@@ -55,5 +55,26 @@ export default async function handler(req, res) {
             console.error(error);
             res.status(500).json({ message: 'Error' });
         }
+    }else if (req.method === 'POST') {
+        try {
+          const { date, name, nameitim, typeitem, quantity } = req.body;
+          await new Promise((resolve, reject) => {
+            dream_itim.query(
+              'INSERT INTO `requisition` (`date`,`name`,`nameitim`,`typeitem`,`quantity`) VALUES (?, ?, ?, ?, ?)',
+              [date, name, nameitim, typeitem, quantity],
+              function (err, results, fields) {
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve(results);
+                }
+              }
+            );
+          });
+          res.status(200).json({ message: 'Add Quantity Success' });
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: 'Error' });
+        }
     }
 }
