@@ -3,10 +3,12 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import { useRouter } from 'next/router';
 
-const NavMember = (props) => {
+const NavMember = () => {
 
-  const [nname, setNname] = useState(props.name);
-  const date = props.date
+  const router = useRouter();
+  const activity = router.query.activity;
+  const date = router.query.date;
+  const nname = router.query.name;
 
   const [listMember, setListMember] = useState([]);
   const [detailMember, setDetailMember] = useState([]);
@@ -17,8 +19,8 @@ const NavMember = (props) => {
   const [phone, setPhone] = useState('');
   const [idcard, setIdcard] = useState('');
 
-  const router = useRouter();
 
+  
   const selectMember = (id, name, phone, idcard) => {
     setDetailMember({
       id: id,
@@ -26,24 +28,8 @@ const NavMember = (props) => {
       phone: phone,
       idcard: idcard,
     })
-    setNname(name)
-    props.setName(name)
-    // props.setMember({
-    //   id: id,
-    //   name: name,
-    //   phone: phone,
-    //   idcard: idcard,
-    // })
-
-    if (name) {
-      const date = props.date
-      // router.push({
-      //   pathname: `/AddItim/[date]/[name]`,
-      //   query: { date, name },
-      // });
-    }
-
-  }
+    router.push(`/${activity}/${date}/${name}`)
+  };
 
   const axiosMember = async () => {
 
@@ -162,7 +148,7 @@ const NavMember = (props) => {
     <>
       <nav className='h-full w-1/10 drop-shadow-xl'>
         <div className={`h-1/6 drop-shadow-xl flex text-center items-center justify-center cursor-pointer bg-white`}>
-          <h1 className={`text-3xl text-gray-800`}>Navmember {nname} {date}</h1>
+          <h1 className={`text-3xl text-gray-800`}>{activity} {nname} {date}</h1>
         </div>
         <div className={`bg-white overflow-x-auto h-5/6 w-full`}>
           {Array.isArray(listMember) && listMember.map((member) => (

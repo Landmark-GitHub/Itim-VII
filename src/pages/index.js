@@ -10,7 +10,7 @@ export default function Home() {
         </div>
         <div className="h-3/4 flex flex-col items-center justify-center">
           <Link className="my-2 w-3/4 bg-gray-200 text-2xl font-bold rounded-lg shadow-xl hover:bg-lime-600 transition-colors duration-300 flex items-center justify-center h-10" 
-          href="/AddItim">
+          href="/select">
             Save Requisition
           </Link>
           <Link className="my-2 w-3/4 bg-gray-200 text-2xl font-bold rounded-lg shadow-xl hover:bg-pink-400 transition-colors duration-300 flex items-center justify-center h-10" 

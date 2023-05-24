@@ -19,9 +19,9 @@ export default function DynamicPage() {
           <ListItim/>
         )}
 
-        {activity === 'ListItim' && (
+        {activity === 'CheckItim' && (
           <div div className=''>
-            <h1>AddItim Page </h1>
+            <h1>CheckItim Page </h1>
             <h1>Date : {router.query.date}</h1>
             <h1>Name : {router.query.name}</h1>
             <h1>status : {router.query.activity}</h1>

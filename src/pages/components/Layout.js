@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import NavMember from './NavMember';
 import Header from './Header';
+import { useRouter } from 'next/router';
 
 const LayoutAddItim = ({ children, ...props }) => {
 
+    const router = useRouter();
+    const activity = router.query.activity;
+    const date = router.query.date;
+    const name = router.query.name;
+  
 
     const [openMenu, setOpenMenu] = useState(true);
 

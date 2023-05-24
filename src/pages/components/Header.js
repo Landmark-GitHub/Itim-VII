@@ -1,21 +1,29 @@
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 
-const HeaderAddItim = (props) => {
-  const { date, name } = props;
-  const activity = 'AddItim';
+const HeaderAddItim = () => {
+
   const router = useRouter();
+  const [status, setStatus] = useState(router.query.activity);
+  const activity = router.query.activity;
+  const date = router.query.date;
+  const name = router.query.name;
 
   const settingDate = (e) => {
     const temp = e.target.value;
-    props.setDate(temp);
+    router.push(`/${activity}/${temp}/${name}`)
 
-    if (date && name) {
-      router.push({
-        pathname: `/AddItim/[date]/[name]`,
-        query: { date: temp, name },
-      });
-    }
+    // if (date && name) {
+    //   router.push({
+    //     pathname: `/AddItim/[date]/[name]`,
+    //     query: { date: temp, name },
+    //   });
+    // }
+  };
+
+  const settingStatus = (text) => {
+    const temp = text
+    router.push(`/${temp}/${date}/${name}`)
   };
 
   return (
@@ -35,10 +43,7 @@ const HeaderAddItim = (props) => {
           className={`text-center text-xl w-full ${
             activity === 'AddItim' ? 'bg-gray-500 text-white' : 'bg-gray-200'
           }`}
-          onClick={() => {
-            // setActivity('AddItim')
-            // console.log(activity)
-          }}
+          onClick={() => settingStatus('AddItim')}
         >
           Add itim
         </div>
@@ -46,10 +51,7 @@ const HeaderAddItim = (props) => {
           className={`text-center text-xl w-full ${
             activity === 'CheckItim' ? 'bg-gray-500 text-white' : 'bg-gray-200'
           }`}
-          onClick={() => {
-            // setActivity('CheckItim')
-            // console.log(activity)
-          }}
+          onClick={() => settingStatus('CheckItim')}
         >
           Check itim
         </div>
