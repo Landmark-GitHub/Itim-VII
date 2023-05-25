@@ -3,7 +3,7 @@ import NavMember from './NavMember';
 import Header from './Header';
 import { useRouter } from 'next/router';
 
-const LayoutAddItim = ({ children, ...props }) => {
+export default function Layout({ children, ...props }) {
 
     const router = useRouter();
     const activity = router.query.activity;
@@ -17,18 +17,15 @@ const LayoutAddItim = ({ children, ...props }) => {
         setOpenMenu(!openMenu);
     };
 
-    useEffect(() => {
-
-    },[])
-
     return (
+        <>
         <main className='flex h-screen w-screen'>
-            <div className={`${openMenu ? 'w-3/12' : 'w-0 opacity-0 translate-x-(-28)'} overflow-hidden duration-300`}>
+            <div div={true} className={`${openMenu ? 'w-3/12' : 'w-0 opacity-0 translate-x-(-28)'} overflow-hidden duration-300`}>
                 <NavMember
                 />
             </div>
 
-            <div className={`${openMenu ? 'w-9/12' : 'w-full'} duration-300 h-screen`}>
+            <div div={true} className={`${openMenu ? 'w-9/12' : 'w-full'} duration-300 h-screen`}>
                 <Header
                 >
                 </Header>
@@ -38,7 +35,7 @@ const LayoutAddItim = ({ children, ...props }) => {
                 </button>
             </div>
         </main>
+        </>
     )
 }
 
-export default LayoutAddItim

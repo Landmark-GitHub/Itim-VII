@@ -89,6 +89,7 @@ const ListItim = () => {
                             <br> Type Item: ${newItem.typeitem} <br> Quantity: ${newItem.quantity}`
                 });
                 setQuantity(0)
+                axiosAllQuantity();
                 setModal(!modal);
             } else {
                 console.error(`HTTP error ${response.status}`);
@@ -136,10 +137,11 @@ const ListItim = () => {
     };
       
     const axiosListItim = async () => {
+        console.log('start axiosListItim')
         try {
             const data = await axios.get('http://localhost:3000/api/itim');
             setListItim(data.data);
-            // axiosAllQuantity();
+            console.log('end axiosListItim')
         } catch (error) {
             console.log(`Connection to itimDB: ${error}`);
             alert(`Connection to itimDB: ${error}`);
@@ -147,10 +149,10 @@ const ListItim = () => {
     };
 
     const axiosAllQuantity = async () => {
+        console.log('start axiosAllQuantity')
         try {
             // http://localhost:3000/api/requisition/2023-05-24/ShivHkU
             // const response2 = await axios.get(`http://localhost:3000/api/requisition/${date}/${name}`,);
-            console.log('start axiosAllQuantity')
             const response2 = await axios.get(`http://localhost:3000/api/requisition/`, {
                 params: {
                     date: date,
@@ -172,8 +174,8 @@ const ListItim = () => {
 
     return (
         <>
-        <div className='h-5/6'>
-            <div className='bg-red-300 p-2 h-3/4 w-full font-sans grid grid-rows-3 gap-2 overflow-y-auto' style={{ gridAutoFlow: 'column' }}>
+        <div div={true} className='h-5/6'>
+            <div className='p-2 h-3/4 w-full font-sans grid grid-rows-3 gap-2 overflow-y-auto' style={{ gridAutoFlow: 'column' }}>
                 {Array.isArray(listItim) &&
                     listItim.map(item => (
                         <div
@@ -273,7 +275,7 @@ const ListItim = () => {
                                             onClick={(e) => handleDecrease(e)}>−</span>
                                     </button>
                                     <input type="int" className="w-32 text-center font-semibold text-md hover:text-blac md:text-base cursor-default flex items-center text-gray-700 outline-none"
-                                        placeholder={quantity} onChange={(event) => handleInputChange(event)}
+                                        placeholder={quantity} value={quantity} onChange={(event) => handleInputChange(event)}
                                     >
                                     </input>
                                     <button className=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-full rounded-l cursor-pointer">
@@ -328,7 +330,7 @@ const ListItim = () => {
                                             onClick={(e) => handleDecrease(e)}>−</span>
                                     </button>
                                     <input type="int" className="w-32 text-center font-semibold text-md hover:text-blac md:text-base cursor-default flex items-center text-gray-700 outline-none"
-                                        placeholder={quantity} onChange={(event) => handleInputChange(event)}
+                                        placeholder={quantity} value={quantity} onChange={(event) => handleInputChange(event)}
                                     >
                                     </input>
                                     <button className=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-full rounded-l cursor-pointer">

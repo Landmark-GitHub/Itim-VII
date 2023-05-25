@@ -12,7 +12,6 @@ const HeaderAddItim = () => {
   const settingDate = (e) => {
     const temp = e.target.value;
     router.push(`/${activity}/${temp}/${name}`)
-
   };
 
   const settingStatus = (text) => {

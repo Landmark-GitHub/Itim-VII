@@ -3,6 +3,7 @@ import Layout from '@/pages/components/Layout';
 import ListItim from '@/pages/components/ListItim';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { CheckItim } from '@/pages/components/CheckItim';
 
 export default function DynamicPage() {
 
@@ -12,24 +13,16 @@ export default function DynamicPage() {
   const name = router.query.name;
 
   return (
-    <>
-      <Layout
-      >
-        {activity === 'AddItim' && (
-          <ListItim/>
-        )}
+      <Layout>
+        <div div={true} >
+          {activity === 'AddItim' && (
+            <ListItim/>
+          )}
 
-        {activity === 'CheckItim' && (
-          <div div className=''>
-            <h1>CheckItim Page </h1>
-            <h1>Date : {router.query.date}</h1>
-            <h1>Name : {router.query.name}</h1>
-            <h1>status : {router.query.activity}</h1>
-          </div>
-        )}
-
-
-    </Layout >
-    </>
+          {activity === 'CheckItim' && (
+            <CheckItim/>
+          )}
+        </div>
+      </Layout >
   );
 }
