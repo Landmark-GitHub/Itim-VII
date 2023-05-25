@@ -76,5 +76,20 @@ export default async function handler(req, res) {
           console.error(error);
           res.status(500).json({ message: 'Error' });
         }
-    }
+    }else if (req.method === 'PUT'){
+        const { date, name, nameitim, quantity} = req.body;
+        dream_itim.query(
+            'UPDATE `requisition` SET `quantity` = ? WHERE `date` = ? AND `name` = ? AND `nameItim` = ?',
+            [quantity, date, name, nameitim],
+            function (err, results, fields) {
+                if (err) {
+                console.error(err);
+                res.status(500).json({ message: 'Error' });
+                return;
+                }
+                console.log(results);
+                res.status(200).json({ message: 'Update Member Success' });
+            }
+        );
+      }
 }

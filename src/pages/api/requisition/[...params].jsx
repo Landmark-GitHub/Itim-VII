@@ -10,7 +10,7 @@ const connection = mysql.createPool({
 
 export default async function dynamicHandler(req, res) {
     const { params } = req.query;
-    const [date, name, nameItim] = params;
+    const [date, name, nameItim, ] = params;
 
     let query = 'SELECT';
 
@@ -43,55 +43,20 @@ export default async function dynamicHandler(req, res) {
               return res.send(results);
             
         });
+    }else if (req.method === 'PUT') {
+        const { date, name, nameItim } = req.query;
+        const { quantity } = req.body;
+
+        connection.query('UPDATE `requisition` SET `quantity` = ? WHERE `date` = ? AND `name` = ? AND `nameItim` = ?',
+        [quantity, date, name, nameItim],
+        function (err, results, fields) {
+            if (err) {
+            console.error(err);
+            res.status(500).json({ message: 'Error' });
+            return;
+            }
+            console.log(results);
+            res.status(200).json({ message: 'Update Member Success' });
+        });
     }
-
-
-    // if (req.method === 'GET') {
-    //     if (date) {
-    //         connection.query(
-    //             'SELECT * FROM `requisition` WHERE `date` = ?',
-    //             [date],
-    //             function (err, results, fields) {
-    //                 if (err) {
-    //                     console.error(err);
-    //                     return res.status(500).json({ error: 'Internal Server Error' });
-    //                 }
-    //                 const formattedResults = JSON.stringify(results, null, 2);
-    //                 return res.send(formattedResults);
-    //             }
-    //         )
-    //     } 
-    //     else if (date && name) {
-    //         connection.query(
-    //             'SELECT * FROM `requisition` WHERE `date` = ? AND `name` = ?',
-    //             [date, name],
-    //             function (err, results, fields) {
-    //                 if (err) {
-    //                     console.error(err);
-    //                     return res.status(500).json({ error: 'Internal Server Error' });
-    //                 }
-    //                 return res.send(results);
-    //             }
-    //         )
-    //     } 
-    //     else if (date, name, nameItim) {
-    //         connection.query(
-    //             'SELECT nameItim, quantity FROM `requisition` WHERE `date` = ? AND `name` = ? AND `nameItim` = ?',
-    //             [date, name, nameItim],
-    //             function (err, results, fields) {
-    //                 if (err) {
-    //                     console.error(err);
-    //                     return res.status(500).json({ error: 'Internal Server Error' });
-    //                 }
-    
-    //                 const formattedResults = results.map((result) => ({
-    //                     nameItim: decodeURIComponent(result.nameItim),
-    //                     quantity: result.quantity,
-    //                 }));
-    
-    //                 return res.send(formattedResults);
-    //             }
-    //         );
-    //     }
-    // }
 }
