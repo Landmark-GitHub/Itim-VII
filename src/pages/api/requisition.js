@@ -41,7 +41,7 @@ export default async function handler(req, res) {
                                 date: result.date,
                                 name: result.name,
                                 nameitim: decodeURIComponent(result.nameitim),
-                                typeitem: result.typeitem,
+                                typeitim: result.typeitim,
                                 quantity: result.quantity,
                             }));
 
@@ -57,11 +57,11 @@ export default async function handler(req, res) {
         }
     }else if (req.method === 'POST') {
         try {
-          const { date, name, nameitim, typeitem, quantity } = req.body;
+          const { date, name, nameitim, typeitim, quantity } = req.body;
           await new Promise((resolve, reject) => {
             dream_itim.query(
-              'INSERT INTO `requisition` (`date`,`name`,`nameitim`,`typeitem`,`quantity`) VALUES (?, ?, ?, ?, ?)',
-              [date, name, nameitim, typeitem, quantity],
+              'INSERT INTO `requisition` (`date`,`name`,`nameitim`,`typeitim`,`quantity`) VALUES (?, ?, ?, ?, ?)',
+              [date, name, nameitim, typeitim, quantity],
               function (err, results, fields) {
                 if (err) {
                   reject(err);

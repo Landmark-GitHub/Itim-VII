@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import mysql from 'mysql2';
-import { useState } from "react";
 
 const connection = mysql.createPool({
     host: process.env.DB_HOST,

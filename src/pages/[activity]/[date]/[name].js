@@ -14,7 +14,7 @@ export default function DynamicPage() {
 
   return (
       <Layout>
-        <div div={true} >
+        <div div={true}>
           {activity === 'AddItim' && (
             <ListItim/>
           )}

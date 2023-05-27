@@ -29,7 +29,9 @@ export default function Layout({ children, ...props }) {
                 <Header
                 >
                 </Header>
-                {children}
+                <div className='h-5/6 overflow-y-scroll'>
+                    {children}
+                </div>
                 <button onClick={toggleMenu} className={`absolute bottom-2 ${openMenu ? 'left-3/12' : 'left-2 '} duration-300 z-10 px-4 py-2 bg-gray-500 text-white rounded`}>
                     {openMenu ? 'Close Menu' : 'Open Menu'}
                 </button>

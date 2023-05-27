@@ -6,7 +6,7 @@ import { Quantity } from './Quantity';
 
 const ListItim = () => {
     const [listItim, setListItim] = useState([]);
-    const [detailItim, setDetailItim] = useState([])
+    const [detailItim, setDetailItim] = useState({})
     const [quantity, setQuantity] = useState(0);
     const [allquantity, setAllQuantity] = useState(0)
 
@@ -21,10 +21,9 @@ const ListItim = () => {
 
 
     const selectItim = (nameitim, typeitim, pieceitim) => {
+        // axiosAllQuantity();
         const selectedQuantity = allquantity.find(item => item.nameitim === nameitim) || { quantity: 0 }
         setQuantity(selectedQuantity.quantity)
-
-        console.log(selectedQuantity.quantity)
 
         setModal(!modal);
         setDetailItim({
@@ -73,9 +72,11 @@ const ListItim = () => {
             date: date,
             name: name,
             nameitim: detailItim.nameitim,
-            typeitem: detailItim.typeitim,
+            typeitim: detailItim.typeitim,
             quantity: quantity,
         };
+
+        console.log(newItem)
 
         try {
             const response = await axios.post('http://localhost:3000/api/requisition', newItem);
@@ -86,7 +87,7 @@ const ListItim = () => {
                     icon: 'success',
                     title: 'Save success',
                     html: `Date: ${newItem.date} <br> Name: ${newItem.name} <br> Item: ${newItem.nameitim} 
-                            <br> Type Item: ${newItem.typeitem} <br> Quantity: ${newItem.quantity}`
+                            <br> Type Item: ${newItem.typeitim} <br> Quantity: ${newItem.quantity}`
                 });
                 setQuantity(0)
                 axiosAllQuantity();
@@ -170,7 +171,7 @@ const ListItim = () => {
     useEffect(() => {
         axiosListItim();
         axiosAllQuantity();
-    },[]);
+    },[date, name]);
 
     return (
         <>
