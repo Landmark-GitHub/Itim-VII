@@ -64,7 +64,6 @@ const ListItim = () => {
         setQuantity(value >= 0 ? value : 0);
     }
     
-
     const saveQuantity = async(e) => {
         event.preventDefault(e)
 
@@ -175,7 +174,7 @@ const ListItim = () => {
 
     return (
         <>
-        <div div={true} className='h-5/6'>
+        <div div="true" className='h-5/6'>
             <div className='p-2 h-3/4 w-full font-sans grid grid-rows-3 gap-2 overflow-y-auto' style={{ gridAutoFlow: 'column' }}>
                 {Array.isArray(listItim) &&
                     listItim.map(item => (

@@ -13,8 +13,9 @@ export default function DynamicPage() {
   const name = router.query.name;
 
   return (
+    <>
       <Layout>
-        <div div={true}>
+        <div div="true">
           {activity === 'AddItim' && (
             <ListItim/>
           )}
@@ -24,5 +25,6 @@ export default function DynamicPage() {
           )}
         </div>
       </Layout >
+    </>
   );
 }
