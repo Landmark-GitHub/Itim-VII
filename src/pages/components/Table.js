@@ -84,7 +84,7 @@ export const Table = (props) => {
               <td className="p-4">{typeItim.itim_type}</td>
               <td className="p-4">0</td>
               <td className="p-4">{getTypeItimData(typeItim.itim_type, newItim)}</td>
-              <td className="p-4">0</td>
+              <td className="p-4">{parseInt(getTypeItimData(typeItim.itim_type, newItim))+5}</td>
               <td className="p-4">
                 <input
                   type="number"
@@ -94,8 +94,8 @@ export const Table = (props) => {
                   onChange={(event) =>handleBalanceChange(event, typeItim.itim_type)}
                 />
               </td>
-              <td className="p-4">{typeItim.itim_piece}</td>
-              <td className="p-4">0</td>
+              <td className="p-4">{(parseInt(getTypeItimData(typeItim.itim_type, newItim))+5) - balanceValues} * {typeItim.itim_piece}</td>
+              <td className="p-4">{((parseInt(getTypeItimData(typeItim.itim_type, newItim))+5) - balanceValues ) * typeItim.itim_piece}</td>
             </tr>
           ))}
         </tbody>
