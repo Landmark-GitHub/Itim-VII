@@ -8,6 +8,9 @@ export const Table = (props) => {
   const date = router.query.date;
   const name = router.query.name;
 
+  // const dateOld = new Date(date);
+  // dateOld.setDate(dateOld.getDate() - 1)
+
   const [typeItim, setTypeItim] = useState([]);
   const [oldItim, setOldItim] = useState([]);
   const [newItim, setNewItim] = useState([]);
@@ -62,12 +65,27 @@ export const Table = (props) => {
       console.log('END Axios Balance Query');
     } catch (error) {
       console.error(error);
-      alert(`Error update balance: ${error}`);
+      alert(`Error Axios balance: ${error}`);
     }
   };
 
   const axiosOld = async () => {
-
+    console.log('Start Axios Old Query');
+    try {
+      // const response = await axios.get(`/api/itimold?date=${date}&name=${name}}`)
+      const response = await axios.get(`/api/itimold`, {
+        params: {
+          date: date,
+          name: name,
+        },
+      });
+      setOldItim(response.data);
+      // console.log(oldItim)
+      console.log('End Axios Old Query');
+    }catch (err) {
+      console.error(err);
+      alert(`Error Axios balance: ${err}`);
+    }
   }
 
   const getTypeItimData = (typeItim, data) => {
@@ -116,6 +134,7 @@ export const Table = (props) => {
   useEffect(() => {
     axiosTypeItim();
     axiosNew();
+    axiosOld();
     axiosBalance();
   }, [date, name]);
 
@@ -139,16 +158,16 @@ export const Table = (props) => {
           {typeItim.map((typeItim, index) => (
             <tr key={index}>
               <td className="p-4">{typeItim.itim_type}</td>
-              <td className="p-4">0</td>
+              <td className="p-4">{oldItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0}</td>
               <td className="p-4">{getTypeItimData(typeItim.itim_type, newItim)}</td>
-              <td className="p-4">{parseInt(getTypeItimData(typeItim.itim_type, newItim))}</td>
+              <td className="p-4">{parseInt(getTypeItimData(typeItim.itim_type, newItim)) + (oldItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0)}</td>
               <td className="p-4 grid grid-cols-2">
                 <input
                   type="number"
-                  placeholder={balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0}
+                  placeholder={balanceItim.find((i) => i.typeitim === typeItim.itim_type && i.name === name)?.quantity || 0}
                   className="w-20 h-full border border-gray-400 rounded-lg text-center text-black"
-                  defaultValue={balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0}
-                  onChange={(event) =>handleBalanceChange(event, typeItim.itim_type)}
+                  defaultValue={balanceItim.find((i) => i.typeitim === typeItim.itim_type && i.name === name)?.quantity || ''}
+                  onChange={(event) => handleBalanceChange(event, typeItim.itim_type)}
                 />
                 <button className={`rounded-lg text-white ${balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity ?'bg-blue-500' : 'bg-lime-500'}`} 
                 onClick={() => {handleSaveBalance(typeItim.itim_type)}}>
@@ -156,11 +175,14 @@ export const Table = (props) => {
                 </button>
               </td>
               <td className="p-4">
-                {getTypeItimData(typeItim.itim_type, newItim) - (balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0)} * 
+                {(parseInt(getTypeItimData(typeItim.itim_type, newItim)) + (oldItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0)) - (balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0)} * 
                 {typeItim.itim_piece}
               </td>
               <td className="p-4">
-                {(getTypeItimData(typeItim.itim_type, newItim) - (balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0)) * typeItim.itim_piece}
+                {((parseInt(getTypeItimData(typeItim.itim_type, newItim)) + 
+                  (oldItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0)) - 
+                  (balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0)) * 
+                  typeItim.itim_piece}
               </td>
             </tr>
           ))}
@@ -168,21 +190,18 @@ export const Table = (props) => {
 
       </table>
 
-      <div className='my-2 text-3xl bg-gray-300'>
+      <div className='my-2 py-2 justify-items-end text-3xl bg-gray-300'>
         <h1>Total : {moneyTotal}</h1>
-        <h1> 123 :  </h1>
       </div>
 
       <div className=' bg-emerald-400'>
-        <button className="bg-red-500 m-4 p-4" onClick={() => {console.log()}}>
-          Click
-        </button>
-
-        <button className="bg-blue-500 m-4 p-4" onClick={() => {console.log()}}>
-          Click
-        </button>
-
         <button className="bg-pink-500 m-4 p-4" onClick={() => {console.log(balanceItim)}}>
+          Click
+        </button>
+        <button className="bg-red-500 m-4 p-4" onClick={() => {console.log(oldItim)}}>
+          Click
+        </button>
+        <button className="bg-red-500 m-4 p-4" onClick={() => {console.log(dateOld)}}>
           Click
         </button>
       </div>
