@@ -10,7 +10,7 @@ export const CheckItim = () => {
   const name = router.query.name;
 
   return (
-    <div div="true" className="bg-green-500 w-full rounded-lg p-2">
+    <div div="true" className="w-full rounded-lg p-2">
       <div className="text-5xl py-4">
         <h1>Check Bill</h1>
       </div>

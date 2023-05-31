@@ -130,7 +130,6 @@ const NavMember = () => {
 
     try {
       const response = await axios.post('http://localhost:3000/api/member', newMember)
-      console.log(newMember);
       axiosMember();
       setModalAdd(!modalAdd);
     } catch (error) {

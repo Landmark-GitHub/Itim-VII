@@ -1,11 +1,20 @@
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 export const Table = (props) => {
-  const { date, name } = props;
+  const router = useRouter();
+  const activity = router.query.activity;
+  const date = router.query.date;
+  const name = router.query.name;
+
   const [typeItim, setTypeItim] = useState([]);
+  const [oldItim, setOldItim] = useState([]);
   const [newItim, setNewItim] = useState([]);
-  const [balanceValues, setBalanceValues] = useState([]);
+  const [balanceItim, setBalanceItim] = useState([]);
+  const [moneyTotal, setMoneyTotal] = useState([]);
+
+  const [inputBalance, setInputBalance] = useState([]);
   
   const axiosTypeItim = async () => {
     console.log('start axios List Type Itim');
@@ -21,7 +30,6 @@ export const Table = (props) => {
         return acc;
       }, []);
       setTypeItim(itimData);
-      // console.log(typeItim);
       console.log('end axios List Type Itim');
     } catch (error) {
       console.log(`Connection to itimDB: ${error}`);
@@ -39,35 +47,84 @@ export const Table = (props) => {
         },
       });
       setNewItim(response.data);
-      // console.log( name );
-      // console.log( newValues );
       console.log('END Axios New Query');
     } catch (error) {
       console.error(error);
     }
   };
 
-  useEffect(() => {
-    axiosTypeItim();
-    axiosNew();
-  }, [date, name]);
+  const axiosBalance = async() => {
+    console.log('Start Axios Balance Query');
+    try {
+      // const response = await axios.get(`/api/balance/`, temp);
+      const response = await axios.get(`/api/balance/${date}/${name}`);
+      setBalanceItim(response.data);
+      console.log('END Axios Balance Query');
+    } catch (error) {
+      console.error(error);
+      alert(`Error update balance: ${error}`);
+    }
+  };
+
+  const axiosOld = async () => {
+
+  }
 
   const getTypeItimData = (typeItim, data) => {
     const foundItem = data.find((item) => item.typeItim === typeItim);
     return foundItem ? foundItem.total_quantity : 0;
   };
 
-  const handleBalanceChange = (event, typeitim) => {
+
+  const handleBalanceChange = (event, typeItim) => {
     const value = event.target.value;
-    setBalanceValues(value);
+    setInputBalance(event.target.value)
   };  
+
+  const handleSaveBalance = async (typeItim) => {
+
+    const itimDetail = {
+      date: date,
+      name: name,
+      typeitim: typeItim,
+      quantity: inputBalance,
+    };
+
+    const check = (balanceItim.find((i) => i.typeitim === typeItim)?.quantity || 0);
+
+    if (check != 0){
+      try {
+        const response = await axios.put('http://localhost:3000/api/balance', itimDetail)
+        axiosBalance();
+        console.log('Update success')
+      }catch(error){
+        console.error('Error:', error);
+        alert(`Error update balance: ${error}`);
+      }
+    } else {
+      try {
+        const response = await axios.post('http://localhost:3000/api/balance', itimDetail)
+        axiosBalance();
+        console.log('Save success')
+      }catch (error){
+        console.error('Error:', error);
+        alert(`Error ave balance: ${error}`);
+      }
+    }
+  };
+
+  useEffect(() => {
+    axiosTypeItim();
+    axiosNew();
+    axiosBalance();
+  }, [date, name]);
 
   return (
     <>
-      <table className="table-auto w-full bg-white rounded-lg text-2xl text-center">
+      <table className="table-auto w-full bg-white drop-shadow-xl rounded-xl text-2xl text-center">
 
         <thead>
-          <tr>
+          <tr className='bg-gray-300'>
             <th className="p-4">TypeItim</th>
             <th className="p-4">Old</th>
             <th className="p-4">New</th>
@@ -84,27 +141,51 @@ export const Table = (props) => {
               <td className="p-4">{typeItim.itim_type}</td>
               <td className="p-4">0</td>
               <td className="p-4">{getTypeItimData(typeItim.itim_type, newItim)}</td>
-              <td className="p-4">{parseInt(getTypeItimData(typeItim.itim_type, newItim))+5}</td>
-              <td className="p-4">
+              <td className="p-4">{parseInt(getTypeItimData(typeItim.itim_type, newItim))}</td>
+              <td className="p-4 grid grid-cols-2">
                 <input
                   type="number"
-                  placeholder={0}
-                  className="w-20 h-full border border-gray-400 rounded-lg text-center"
-                  value={balanceValues}
+                  placeholder={balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0}
+                  className="w-20 h-full border border-gray-400 rounded-lg text-center text-black"
+                  defaultValue={balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0}
                   onChange={(event) =>handleBalanceChange(event, typeItim.itim_type)}
                 />
+                <button className={`rounded-lg text-white ${balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity ?'bg-blue-500' : 'bg-lime-500'}`} 
+                onClick={() => {handleSaveBalance(typeItim.itim_type)}}>
+                  {balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity ? 'Update' : 'Save'}
+                </button>
               </td>
-              <td className="p-4">{(parseInt(getTypeItimData(typeItim.itim_type, newItim))+5) - balanceValues} * {typeItim.itim_piece}</td>
-              <td className="p-4">{((parseInt(getTypeItimData(typeItim.itim_type, newItim))+5) - balanceValues ) * typeItim.itim_piece}</td>
+              <td className="p-4">
+                {getTypeItimData(typeItim.itim_type, newItim) - (balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0)} * 
+                {typeItim.itim_piece}
+              </td>
+              <td className="p-4">
+                {(getTypeItimData(typeItim.itim_type, newItim) - (balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0)) * typeItim.itim_piece}
+              </td>
             </tr>
           ))}
         </tbody>
 
       </table>
 
-      <button className="bg-red-500 m-4 p-4" onClick={() => {console.log(balanceValues)}}>
-        Click
-      </button>
+      <div className='my-2 text-3xl bg-gray-300'>
+        <h1>Total : {moneyTotal}</h1>
+        <h1> 123 :  </h1>
+      </div>
+
+      <div className=' bg-emerald-400'>
+        <button className="bg-red-500 m-4 p-4" onClick={() => {console.log()}}>
+          Click
+        </button>
+
+        <button className="bg-blue-500 m-4 p-4" onClick={() => {console.log()}}>
+          Click
+        </button>
+
+        <button className="bg-pink-500 m-4 p-4" onClick={() => {console.log(balanceItim)}}>
+          Click
+        </button>
+      </div>
 
     </>
   );
