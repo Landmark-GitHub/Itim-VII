@@ -4,21 +4,14 @@ import React, { useEffect, useState } from 'react';
 
 export const Table = (props) => {
   const router = useRouter();
-  const activity = router.query.activity;
-  const date = router.query.date;
-  const name = router.query.name;
-
-  // const dateOld = new Date(date);
-  // dateOld.setDate(dateOld.getDate() - 1)
+  const { activity, date, name } = router.query;
 
   const [typeItim, setTypeItim] = useState([]);
   const [oldItim, setOldItim] = useState([]);
   const [newItim, setNewItim] = useState([]);
   const [balanceItim, setBalanceItim] = useState([]);
-  const [moneyTotal, setMoneyTotal] = useState([]);
+  const [inputBalance, setInputBalance] = useState('');
 
-  const [inputBalance, setInputBalance] = useState([]);
-  
   const axiosTypeItim = async () => {
     console.log('start axios List Type Itim');
     try {
@@ -56,10 +49,9 @@ export const Table = (props) => {
     }
   };
 
-  const axiosBalance = async() => {
+  const axiosBalance = async () => {
     console.log('Start Axios Balance Query');
     try {
-      // const response = await axios.get(`/api/balance/`, temp);
       const response = await axios.get(`/api/balance/${date}/${name}`);
       setBalanceItim(response.data);
       console.log('END Axios Balance Query');
@@ -72,7 +64,6 @@ export const Table = (props) => {
   const axiosOld = async () => {
     console.log('Start Axios Old Query');
     try {
-      // const response = await axios.get(`/api/itimold?date=${date}&name=${name}}`)
       const response = await axios.get(`/api/itimold`, {
         params: {
           date: date,
@@ -80,27 +71,23 @@ export const Table = (props) => {
         },
       });
       setOldItim(response.data);
-      // console.log(oldItim)
       console.log('End Axios Old Query');
-    }catch (err) {
+    } catch (err) {
       console.error(err);
       alert(`Error Axios balance: ${err}`);
     }
-  }
+  };
 
   const getTypeItimData = (typeItim, data) => {
     const foundItem = data.find((item) => item.typeItim === typeItim);
     return foundItem ? foundItem.total_quantity : 0;
   };
 
-
   const handleBalanceChange = (event, typeItim) => {
-    const value = event.target.value;
-    setInputBalance(event.target.value)
-  };  
+    setInputBalance(event.target.value);
+  };
 
   const handleSaveBalance = async (typeItim) => {
-
     const itimDetail = {
       date: date,
       name: name,
@@ -108,42 +95,59 @@ export const Table = (props) => {
       quantity: inputBalance,
     };
 
-    const check = (balanceItim.find((i) => i.typeitim === typeItim)?.quantity || 0);
+    const check = balanceItim.find((i) => i.typeitim === typeItim)?.quantity || 0;
 
-    if (check != 0){
+    if (check !== 0) {
       try {
-        const response = await axios.put('http://localhost:3000/api/balance', itimDetail)
+        await axios.put('http://localhost:3000/api/balance', itimDetail);
         axiosBalance();
-        console.log('Update success')
-      }catch(error){
+        console.log('Update success');
+      } catch (error) {
         console.error('Error:', error);
         alert(`Error update balance: ${error}`);
       }
     } else {
       try {
-        const response = await axios.post('http://localhost:3000/api/balance', itimDetail)
+        await axios.post('http://localhost:3000/api/balance', itimDetail);
         axiosBalance();
-        console.log('Save success')
-      }catch (error){
+        console.log('Save success');
+      } catch (error) {
         console.error('Error:', error);
-        alert(`Error ave balance: ${error}`);
+        alert(`Error save balance: ${error}`);
       }
     }
   };
+
+  const sumMoney = () => {
+    let total = 0;
+    for (let i = 0; i < typeItim.length; i++) {
+      const itim = typeItim[i].itim_type;
+      const oldQuantity = oldItim.find((o) => o.typeitim === itim)?.quantity || 0;
+      const newQuantity = newItim.find((n) => n.typeItim === itim)?.total_quantity || 0;
+      const totalQuantity = parseInt(oldQuantity) + parseInt(newQuantity)
+      const balanceQuantity = balanceItim.find((i) => i.typeitim === itim)?.quantity || 0;
+      const soldOut = parseInt(totalQuantity) - parseInt(balanceQuantity)
+      const piece = parseFloat(typeItim[i].itim_piece)
+      const money = (parseInt(soldOut) * piece)
+      total += money;
+    }
+    return total;
+  }
 
   useEffect(() => {
     axiosTypeItim();
     axiosNew();
     axiosOld();
     axiosBalance();
+    // sumMoney();
+
   }, [date, name]);
 
   return (
     <>
       <table className="table-auto w-full bg-white drop-shadow-xl rounded-xl text-2xl text-center">
-
         <thead>
-          <tr className='bg-gray-300'>
+          <tr className="bg-gray-300">
             <th className="p-4">TypeItim</th>
             <th className="p-4">Old</th>
             <th className="p-4">New</th>
@@ -153,59 +157,88 @@ export const Table = (props) => {
             <th className="p-4">Money</th>
           </tr>
         </thead>
-
         <tbody>
-          {typeItim.map((typeItim, index) => (
-            <tr key={index}>
-              <td className="p-4">{typeItim.itim_type}</td>
-              <td className="p-4">{oldItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0}</td>
-              <td className="p-4">{getTypeItimData(typeItim.itim_type, newItim)}</td>
-              <td className="p-4">{parseInt(getTypeItimData(typeItim.itim_type, newItim)) + (oldItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0)}</td>
-              <td className="p-4 grid grid-cols-2">
-                <input
-                  type="number"
-                  placeholder={balanceItim.find((i) => i.typeitim === typeItim.itim_type && i.name === name)?.quantity || 0}
-                  className="w-20 h-full border border-gray-400 rounded-lg text-center text-black"
-                  defaultValue={balanceItim.find((i) => i.typeitim === typeItim.itim_type && i.name === name)?.quantity || ''}
-                  onChange={(event) => handleBalanceChange(event, typeItim.itim_type)}
-                />
-                <button className={`rounded-lg text-white ${balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity ?'bg-blue-500' : 'bg-lime-500'}`} 
-                onClick={() => {handleSaveBalance(typeItim.itim_type)}}>
-                  {balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity ? 'Update' : 'Save'}
-                </button>
-              </td>
-              <td className="p-4">
-                {(parseInt(getTypeItimData(typeItim.itim_type, newItim)) + (oldItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0)) - (balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0)} * 
-                {typeItim.itim_piece}
-              </td>
-              <td className="p-4">
-                {((parseInt(getTypeItimData(typeItim.itim_type, newItim)) + 
-                  (oldItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0)) - 
-                  (balanceItim.find((i) => i.typeitim === typeItim.itim_type)?.quantity || 0)) * 
-                  typeItim.itim_piece}
-              </td>
-            </tr>
-          ))}
-        </tbody>
+          {typeItim.map((type, index) => {
 
+            const typeItim = type.itim_type;
+            const oldQuantity = oldItim.find((i) => i.typeitim === typeItim)?.quantity || 0;
+            const newQuantity = getTypeItimData(typeItim, newItim);
+            const balanceQuantity = balanceItim.find((i) => i.typeitim === typeItim && i.name === name)?.quantity || 0;
+            const totalQuantity = parseInt(newQuantity) + parseInt(oldQuantity);
+            const soldOut = totalQuantity - balanceQuantity;
+            const money = soldOut * type.itim_piece;
+
+            return (
+              <tr key={index}>
+                <td className="p-4">{typeItim}</td>
+                <td className="p-4">{oldQuantity}</td>
+                <td className="p-4">{newQuantity}</td>
+                <td className="p-4">{totalQuantity}</td>
+                <td className="p-4 grid grid-cols-2">
+                  <input
+                    type="number"
+                    placeholder={balanceQuantity}
+                    className="w-20 h-full border border-gray-400 rounded-lg text-center text-black"
+                    defaultValue={balanceQuantity}
+                    onChange={(event) => handleBalanceChange(event, typeItim)}
+                  />
+                  <button
+                    className={`rounded-lg text-white ${balanceQuantity ? 'bg-blue-500' : 'bg-lime-500'}`}
+                    onClick={() => handleSaveBalance(typeItim)}
+                  >
+                    {balanceQuantity ? 'Update' : 'Save'}
+                  </button>
+                </td>
+                <td className="p-4">
+                  {soldOut} * {type.itim_piece}
+                </td>
+                <td className="p-4">{money}</td>
+              </tr>
+            );
+          })}
+        </tbody>
       </table>
 
-      <div className='my-2 py-2 justify-items-end text-3xl bg-gray-300'>
-        <h1>Total : {moneyTotal}</h1>
+      <div className="my-2 py-2 justify-items-end text-3xl bg-gray-300">
+        <h1>Total : {sumMoney()}</h1>
       </div>
 
-      <div className=' bg-emerald-400'>
-        <button className="bg-pink-500 m-4 p-4" onClick={() => {console.log(balanceItim)}}>
-          Click
-        </button>
-        <button className="bg-red-500 m-4 p-4" onClick={() => {console.log(oldItim)}}>
-          Click
-        </button>
-        <button className="bg-red-500 m-4 p-4" onClick={() => {console.log(dateOld)}}>
-          Click
-        </button>
-      </div>
+      <div className="flex flex-rows w-full">
+      <label className="flex items-center">
+        <input type="checkbox" className="form-checkbox" />
+        <span className="ml-2">Home</span>
+      </label>
+      <label className="flex items-center">
+        <input type="checkbox" className="form-checkbox" />
+        <span className="ml-2">Car</span>
+      </label>
+      <label className="flex items-center">
+        <input type="checkbox" className="form-checkbox" />
+        <span className="ml-2">Money</span>
+      </label>
+      <label className="flex items-center">
+        <input type="checkbox" className="form-checkbox" />
+        <input type="text" className="ml-2 p-1 border border-gray-300 rounded" placeholder="Input" />
+      </label>
+    </div>
 
+      {/* <div className="bg-emerald-400">
+        <button className="bg-pink-500 m-4 p-4" onClick={() => console.log(balanceItim)}>
+          Click
+        </button>
+        <button className="bg-red-500 m-4 p-4" onClick={() => console.log(oldItim)}>
+          Old
+        </button>
+        <button className="bg-red-500 m-4 p-4" onClick={() => console.log(newItim)}>
+          New
+        </button>
+        <button className="bg-red-500 m-4 p-4" onClick={() => console.log(balanceItim)}>
+          Click
+        </button>
+        <button className="bg-red-500 m-4 p-4" onClick={sumMoney}>
+          Money
+        </button>
+      </div> */}
     </>
   );
 };
