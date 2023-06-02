@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
+import { Select, Option } from "@material-tailwind/react";
 
-export const Listmore = () => {
-    const [dryIceSelected, setDryIceSelected] = useState('');
+import { Fragment } from 'react'
+import { Menu, Transition } from '@headlessui/react'
+import { ChevronDownIcon } from '@heroicons/react/20/solid'
+
+const Listmore = () => {
+    const [dryIceSelected, setDryIceSelected] = useState(false);
     const [homeChecked, setHomeChecked] = useState(false);
     const [carChecked, setCarChecked] = useState(false);
-    const [otherInput, setOtherInput] = useState('');
+    const [otherChecked, setOtherChecked] = useState(false);
 
     const handleDryIceChange = (event) => {
         setDryIceSelected(event.target.value);
@@ -27,38 +32,43 @@ export const Listmore = () => {
     };
 
     return (
-        <div className="grid grid-cols-4 gap-2 w-full h-20">
+        <>
+            <div className="grid grid-cols-4 gap-2 w-full h-20">
 
-            <div className={`bg-white rounded-xl drop-shadow-xl ${dryIceSelected  != 0 ? 'bg-lime-400' : '' }`}>
-                <select className='bg-r' value={dryIceSelected} onChange={handleDryIceChange}>
-                    <option value="0">Please select</option>
-                    {[...Array(10)].map((_, index) => (
-                        <option key={index} value={String(index + 1)}>
-                            {index + 1}
-                        </option>
-                    ))}
-                </select>
-                DryICE
+                <div className={`rounded-xl drop-shadow-xl ring-2 ring-gray-300  ${homeChecked ? 'bg-lime-400' : 'bg-white'}`}
+                    onClick={() => { setHomeChecked(!homeChecked) }}>
+                        <div className='pr-8'>
+                            <div className='grid grid-cols-2 gap-2'>
+                                <div className='flex text-7xl font-bold justify-end items-center'>
+                                    <label>8</label>
+                                </div>
+                                <div className='text-2xl pt-2 font-bold text-left'>
+                                    <label>DRYICE</label>
+                                    <p>100</p>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+                <div className={`inline-flex text-center text-4xl font-bold items-center px-3 rounded-xl drop-shadow-xl ring-2 ring-gray-300  ${homeChecked ? 'bg-lime-400' : 'bg-white'}`}
+                    onClick={() => { setHomeChecked(!homeChecked) }}>
+                    Home
+                </div>
+
+                <div className={`inline-flex text-center text-4xl font-bold items-center px-3 rounded-xl drop-shadow-xl ring-2 ring-gray-300  ${carChecked ? 'bg-lime-400' : 'bg-white'}`}
+                    onClick={() => { setCarChecked(!carChecked) }}>
+                    Car
+                </div>
+
+                <div className={`inline-flex text-center text-4xl font-bold items-center px-3 rounded-xl drop-shadow-xl ring-2 ring-gray-300  ${otherChecked ? 'bg-lime-400' : 'bg-white'}`}
+                    onClick={() => { setOtherChecked(!otherChecked) }}>
+                    Other
+                </div>
+
             </div>
 
-            <div className={`bg-white rounded-xl drop-shadow-xl hover:bg-lime-400 ${homeChecked ? 'bg-lime-400' : ''}`} 
-                onClick={() => {setHomeChecked(!homeChecked)}}>
-                Home
-            </div>
-
-            <div className={`bg-white rounded-xl drop-shadow-xl  ${carChecked ? 'bg-lime-400' : ''    }`} 
-                onClick={() => {setCarChecked(!carChecked)}}>
-                Car
-            </div>
-
-            <div className={`bg-white rounded-xl drop-shadow-xl  ${otherInput && otherInput !== '0' ? 'bg-lime-400' : ''}`}>
-                <input
-                    type="number"
-                    value={otherInput}
-                    onChange={handleOtherInputChange}/>
-                Other
-            </div>
-            <button onClick={handleSave}>Save</button>
-        </div>
+        </>
     );
 };
+
+export default Listmore;

@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Listmore } from './Listmore';
 
-export const Table = (props) => {
+export const Table = () => {
   const router = useRouter();
   const { activity, date, name } = router.query;
 
@@ -11,6 +11,9 @@ export const Table = (props) => {
   const [oldItim, setOldItim] = useState([]);
   const [newItim, setNewItim] = useState([]);
   const [balanceItim, setBalanceItim] = useState([]);
+
+  const [selectType, setSelectType] = useState([]);
+  const [inputCheck, setinputCheck] = useState(false);
   const [inputBalance, setInputBalance] = useState('');
 
   const axiosTypeItim = async () => {
@@ -84,10 +87,6 @@ export const Table = (props) => {
     return foundItem ? foundItem.total_quantity : 0;
   };
 
-  // const handleBalanceChange = (event, typeItim) => {
-  //   setInputBalance(event.target.value);
-  // };
-
   const handleSaveBalance = async (typeItim) => {
     const itimDetail = {
       date: date,
@@ -98,29 +97,39 @@ export const Table = (props) => {
 
     const check = balanceItim.find((i) => i.typeitim === typeItim)?.quantity || 0;
 
-    if (check !== null) {
-      try {
-        await axios.put('http://localhost:3000/api/balance', itimDetail);
-        axiosNew();
-        axiosOld();
-        axiosBalance();
-        setInputBalance(null);
-        console.log('Update success');
-      } catch (error) {
-        console.error('Error:', error);
-        alert(`Error update balance: ${error}`);
+    if (inputBalance != null){
+      
+      if (check !== null) {
+        try {
+          await axios.put('http://localhost:3000/api/balance', itimDetail);
+          axiosNew();
+          axiosOld();
+          axiosBalance();
+          setInputBalance(null);
+          setinputCheck(!inputCheck)
+          setSelectType(null)
+          console.log('Update success');
+        } catch (error) {
+          console.error('Error:', error);
+          alert(`Error update balance: ${error}`);
+        }
+      } else {
+        try {
+          await axios.post('http://localhost:3000/api/balance', itimDetail);
+          axiosBalance();
+          setInputBalance(null);
+          setinputCheck(!inputCheck)
+          setSelectType(null)
+          console.log('Save success');
+        } catch (error) {
+          console.error('Error:', error);
+          alert(`Error save balance: ${error}`);
+        }
       }
     } else {
-      try {
-        await axios.post('http://localhost:3000/api/balance', itimDetail);
-        axiosBalance();
-        setInputBalance(null);
-        console.log('Save success');
-      } catch (error) {
-        console.error('Error:', error);
-        alert(`Error save balance: ${error}`);
-      }
+      setinputCheck(!inputCheck)
     }
+
   };
 
   const sumMoney = () => {
@@ -149,7 +158,7 @@ export const Table = (props) => {
     axiosNew();
     axiosOld();
     axiosBalance();
-    // sumMoney();
+    sumMoney();
 
   }, [date, name]);
 
@@ -184,44 +193,88 @@ export const Table = (props) => {
                 <td className="p-4">{oldQuantity}</td>
                 <td className="p-4">{newQuantity}</td>
                 <td className="p-4">{totalQuantity}</td>
-                <td className="p-4 grid grid-cols-2">
-                  <input
-                    type="number"
-                    className="w-20 h-full border border-gray-400 rounded-lg text-center text-black"
-                    placeholder={balanceQuantity}
-                    defaultValue={quantityBalance(typeItim, name)}
-                    // value={balanceQuantity}
-                    onChange={(event) => {setInputBalance(event.target.value)}}
-                  />
-                  <button
-                    className={`rounded-lg text-white ${quantityBalance(typeItim) != null ? 'bg-blue-500' : 'bg-lime-500'}`}
-                    onClick={() => handleSaveBalance(typeItim)}
-                  >
-                    {quantityBalance(typeItim) != null ? 'Update' : 'Save'}
-                  </button>
+                {/* <td className="py-4 flex justify-center">
+                  {inputCheck ?
+                    <>
+                        <input className='border border-gray-400 rounded-lg w-14 h-full text-center'
+                        type= "number"
+                        placeholder= {balanceQuantity}
+                        defaultValue= {balanceQuantity}
+                        onChange={(event) => {setInputBalance(event.target.value)}}
+                        />
+                        <button className={`rounded-lg w-24 ml-2 text-white ${quantityBalance(typeItim) != null ? 'bg-blue-500' : 'bg-lime-500'}`}
+                        onClick={() => handleSaveBalance(typeItim)}
+                        >
+                          {quantityBalance(typeItim) != null ? 'Update' : 'Save'}
+                        </button>
+                    </>
+                    :
+                    <>
+                        <label className='border border-gray-400 rounded-lg w-14 h-full'>
+                          {balanceQuantity}
+                        </label>
+                        <button className={` bg-gray-300 rounded-lg w-24 ml-2 text-black`}
+                          onClick={() => { setinputCheck(!inputCheck) }}>
+                          edit
+                        </button>
+                    </>}
+                </td> */}
+                <td className="py-4 flex justify-center">
+                  {inputCheck ?
+                    <>
+                      {selectType === typeItim ? 
+                      <>
+                        <input className='border border-gray-400 rounded-lg w-14 h-full text-center'
+                        type= "number"
+                        placeholder= {balanceQuantity}
+                        defaultValue= {balanceQuantity}
+                        onChange={(event) => {setInputBalance(event.target.value)}}
+                        />
+                        <button className={`rounded-lg w-24 ml-2 text-white ${quantityBalance(typeItim) != null ? 'bg-blue-500' : 'bg-lime-500'}`}
+                        onClick={() => handleSaveBalance(typeItim)}
+                        >
+                          {quantityBalance(typeItim) != null ? 'Update' : 'Save'}
+                        </button>
+                      </> 
+                      : 
+                      <>
+                        <label className='border border-gray-400 rounded-lg w-14 h-full'>
+                          {balanceQuantity}
+                        </label>
+                        <button className={` bg-gray-300 rounded-lg w-24 ml-2 text-black`}
+                          onClick={() => { setinputCheck(!inputCheck)
+                                          setSelectType(typeItim)}}>
+                          edit
+                        </button>
+                      </>
+                      }
+                    </>
+                    :
+                    <>
+                        <label className='border border-gray-400 rounded-lg w-14 h-full'>
+                          {balanceQuantity}
+                        </label>
+                        <button className={` bg-gray-300 hover:bg-gray-500 hover:text-white rounded-lg w-24 ml-2 text-black`}
+                          onClick={() => { setinputCheck(!inputCheck)
+                                          setSelectType(typeItim)}}>
+                          edit
+                        </button>
+                    </>}
                 </td>
-                <td className="p-4">
-                  {soldOut} * {type.itim_piece}
-                </td>
+                <td className="p-4">{soldOut} * {type.itim_piece}</td>
                 <td className="p-4">{money}</td>
               </tr>
             );
           })}
         </tbody>
       </table>
-
-      <div className="my-2 py-2 rounded-xl text-3xl bg-gray-300">
+      <div className="h-full my-2 p-2 rounded-xl text-3xl bg-gray-300">
         <h1>Total : {sumMoney()}</h1>
-      </div>
-      <Listmore/>
-
-      {/* <div className='bg-red-300 h-full'>
-        <button onClick={()=>{console.log(balanceItim)}}>
+        <button className='bg-red-500 hover:bg-red-800 rounded-xl p-2'
+        onClick={()=>{console.log(sumMoney())}}>
           Click balance
         </button>
-      </div> */}
-
-
+      </div>
     </>
   );
 };

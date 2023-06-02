@@ -38,9 +38,9 @@ export const Quantity = (props) => {
 
   return (
     <>
-        <div className=" flex justify-between mb-0">
+        <div className=" flex justify-between items-center">
             <div className="text-2xl font-bold">Quantity</div>
-            <div className="text-4xl font-bold">{quantity}</div>
+            <div className="text-5xl font-bold mb-2">{quantity}</div>
         </div>
 
     </>

@@ -3,6 +3,7 @@ import axios, { all } from 'axios';
 import { useRouter } from 'next/router';
 import swal from 'sweetalert2';
 import { Quantity } from './Quantity';
+import Listmore from './Listmore';
 
 const ListItim = () => {
     const [listItim, setListItim] = useState([]);
@@ -174,8 +175,8 @@ const ListItim = () => {
 
     return (
         <>
-        <div div="true" className='h-5/6'>
-            <div className='p-2 h-3/4 w-full font-sans grid grid-rows-3 gap-2 overflow-y-auto' style={{ gridAutoFlow: 'column' }}>
+        <div div="true" className='h-4/6'>
+            <div className='p-2 my-2 h-3/4 w-full font-sans grid grid-rows-3 gap-2 overflow-y-auto' style={{ gridAutoFlow: 'column' }}>
                 {Array.isArray(listItim) &&
                     listItim.map(item => (
                         <div
@@ -188,10 +189,10 @@ const ListItim = () => {
                                     {activity}{date}{name}
                                 </div>
                                 <div className='py-2 cursor-pointer'>
-                                    <h1 className='text-2xl font-bold'>{item.itim_name}</h1>
-                                    <p className='text-lg'>Piece: {item.itim_piece}</p>
-                                    <p className='text-lg'>Type: {item.itim_type}</p>
-                                    <div className='mr-2 mt-1'>
+                                    <h1 className='text-2xl font-bold mt-2'>{item.itim_name}</h1>
+                                    <p className='text-lg font-bold'>Piece: {item.itim_piece}</p>
+                                    <p className='text-lg font-bold'>Type: {item.itim_type}</p>
+                                    <div className='mr-2'>
                                         <Quantity
                                             name = {name}
                                             date = {date}
@@ -203,7 +204,7 @@ const ListItim = () => {
                         </div>
                     ))}
             </div>
-            <div className=' bg-gray-300 mt-2 rounded-lg grid w-full gap-2 md:grid-cols-4'>
+            {/* <div className=' bg-gray-300 mt-2 rounded-lg grid w-full gap-2 md:grid-cols-4'>
 
                     <div className="m-2">
                         <input type="checkbox" id="react-option" value="" className="hidden peer"></input>
@@ -245,6 +246,9 @@ const ListItim = () => {
                         </label>
                     </div>
 
+            </div> */}
+            <div className='bg-gray-300 rounded-xl p-2 drop-shadow-lg'>
+                <Listmore/>
             </div>
         </div>
 
