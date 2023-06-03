@@ -175,7 +175,7 @@ const ListItim = () => {
 
     return (
         <>
-        <div div="true" className='h-4/6'>
+        <div div="true" className='h-4/6 '>
             <div className='p-2 my-2 h-3/4 w-full font-sans grid grid-rows-3 gap-2 overflow-y-auto' style={{ gridAutoFlow: 'column' }}>
                 {Array.isArray(listItim) &&
                     listItim.map(item => (
@@ -204,52 +204,9 @@ const ListItim = () => {
                         </div>
                     ))}
             </div>
-            {/* <div className=' bg-gray-300 mt-2 rounded-lg grid w-full gap-2 md:grid-cols-4'>
-
-                    <div className="m-2">
-                        <input type="checkbox" id="react-option" value="" className="hidden peer"></input>
-                        <label htmlFor="react-option" className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:border-gray-700 peer-checked:border-green-400 peer-checked:bg-green-400 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                            <div className="block">
-                                <div className="w-full text-lg font-semibold">Dry ICE</div>
-                                <div className="w-full text-sm">Piece : 25</div>
-                            </div>
-                        </label>
-                    </div>
-
-                    <div className="m-2">
-                        <input type="checkbox" id="flowbite-option" value="" className="hidden peer"></input>
-                        <label htmlFor="flowbite-option" className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-green-400 peer-checked:bg-green-400 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                            <div className="block">
-                                <div className="w-full text-lg font-semibold">Home</div>
-                                <div className="w-full text-sm">Piece : 20</div>
-                            </div>
-                        </label>
-                    </div>
-
-                    <div className="m-2">
-                        <input type="checkbox" id="angular-option2" value="" className="hidden peer"></input>
-                        <label htmlFor="angular-option2" className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-green-400 peer-checked:bg-green-400 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                            <div className="block">
-                                <div className="w-full text-lg font-semibold">Car</div>
-                                <div className="w-full text-sm">Piece : 20</div>
-                            </div>
-                        </label>
-                    </div>
-
-                    <div className="m-2">
-                        <input type="checkbox" id="angular-option3" value="" className="hidden peer"></input>
-                        <label htmlFor="angular-option3" className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-green-400 peer-checked:bg-green-400 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-                            <div className="block">
-                                <div className="w-full text-lg font-semibold">Other</div>
-                                <div className="w-full text-sm">Test 5000</div>
-                            </div>
-                        </label>
-                    </div>
-
-            </div> */}
-            <div className='bg-gray-300 rounded-xl p-2 drop-shadow-lg'>
-                <Listmore/>
-            </div>
+        </div>
+        <div className='h-2/6 p-2'>
+            <Listmore/>
         </div>
 
         {modal && detailItim.quantity === 0 && (

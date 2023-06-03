@@ -268,12 +268,70 @@ export const Table = () => {
           })}
         </tbody>
       </table>
-      <div className="h-full my-2 p-2 rounded-xl text-3xl bg-gray-300">
-        <h1>Total : {sumMoney()}</h1>
-        <button className='bg-red-500 hover:bg-red-800 rounded-xl p-2'
-        onClick={()=>{console.log(sumMoney())}}>
-          Click balance
-        </button>
+      <div className='bg-gray-300 text-4xl p-3 mt-3 rounded-xl'>
+        <h1 className='text-right '>Total : {sumMoney()} </h1>
+      </div>
+      <div className="h-full grid grid-cols-3 gap-2 my-2 p-2 rounded-xl bg-gray-300">
+
+        <div className='col-span-2'>
+          <table class="tabl-auto w-full text-3xl text-left">
+            <thead className='bg-white'>
+              <tr>
+                <th>Title</th>
+                <th>Option</th>
+                <th>Money</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>ITIM</td>
+                <td>-</td>
+                <td>{sumMoney()}</td>
+              </tr>
+              <tr>
+                <td>DRYICE</td>
+                <td>4 * 25</td>
+                <td>100</td>
+              </tr>
+              <tr>
+                <td>HOME</td>
+                <td>-</td>
+                <td>25</td>
+              </tr>
+              <tr>
+                <td>CAR</td>
+                <td>-</td>
+                <td>25</td>
+              </tr>
+              <tr>
+                <td>Other</td>
+                <td>ยางใน ยางนอก</td>
+                <td>160</td>
+              </tr>
+              <tr>
+                <td>Overdue</td>
+                <td>ยอดค้างชำระ</td>
+                <td>160</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className='grid gap-2 text-3xl'>
+          <label className='bg-white p-2 rounded-xl'>Total : {sumMoney()}</label>
+          <input 
+          type='number'
+          placeholder='Payment '
+          className='rounded-xl p-2 w-full'
+          onChange={(event) => {se}}
+          />
+          <label className=''>Overdue : 0</label>
+          <button className='bg-red-500 hover:bg-red-800 rounded-xl p-2'
+          onClick={()=>{console.log(sumMoney())}}>
+            Click balance
+          </button>
+        </div>
+
       </div>
     </>
   );
