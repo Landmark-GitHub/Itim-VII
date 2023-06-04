@@ -6,7 +6,8 @@ export default function HeaderTest(props) {
     const [date, setDate] = useState(props.date);
     // const [activity, setActivity] = useState('AddItim');
     const [activity, setActivity] = useState(props.activity);
-    const name = props.member.name;
+    // const name = props.member.name;
+    const name = props.member?.name || 'Select Member';
 
     const router = useRouter();
 
@@ -30,7 +31,8 @@ export default function HeaderTest(props) {
             <div className={`flex justify-between bg-white h-3/4 px-2`}>
 
                 <div className='p-2'>
-                    <label className={`text-gray-800 text-4xl`}>{name}</label>
+                    <br></br>
+                    <label className={`text-gray-800 text-4xl`}>{name !== 'undefined' ? name : ''}</label>
                     <br></br>
                     <label className='text-2xl'>{date}</label>
                     <label className='text-2xl'>  Status : {activity}</label>
@@ -57,3 +59,6 @@ export default function HeaderTest(props) {
         </header>
     );
 }
+
+export { HeaderTest };  // เพิ่มบรรทัดนี้เพื่อส่งออกคอมโพเนนต์ 'CheckItim'
+
