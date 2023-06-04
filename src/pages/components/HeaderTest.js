@@ -38,7 +38,9 @@ export default function HeaderTest(props) {
                     <label className='text-2xl'>  Status : {activity}</label>
                 </div>
 
-                <input type='date' value={date} onChange={settingDate}  />
+                <div>
+                    <input type='date' value={date} onChange={settingDate}  />
+                </div>
 
             </div>
             <div className="flex justify-between ">
