@@ -46,3 +46,6 @@ export default function Quantity(props) {
     </>
   )
 }
+
+export { Quantity };  // เพิ่มบรรทัดนี้เพื่อส่งออกคอมโพเนนต์ 'CheckItim'
+

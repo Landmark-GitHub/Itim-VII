@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios, { all } from 'axios';
 import { useRouter } from 'next/router';
 import swal from 'sweetalert2';
-import { Quantity } from './Quantity';
+import Quantity from './Quantity';
 import Listmore from './Listmore';
 
 export default function ListItim() {
