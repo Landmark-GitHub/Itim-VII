@@ -171,7 +171,7 @@ const ListItim = () => {
     useEffect(() => {
         axiosListItim();
         axiosAllQuantity();
-    },[date, nameม ,allquantity]);
+    },[date, name ,allquantity]);
 
     return (
         <>
