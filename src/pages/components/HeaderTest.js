@@ -21,9 +21,9 @@ export default function HeaderTest(props) {
         }
     }
 
-    useEffect(() => {
+    // useEffect(() => {
 
-    },[])
+    // },[])
 
     return (
         <header className='h-1/6 pb-0.5 bg-white shadow-xl'>
