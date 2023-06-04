@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { Table } from './Table';
+import Table from './Table';
 import Listmore from './Listmore';
 
 export default function CheckItim() {
@@ -26,3 +26,5 @@ export default function CheckItim() {
     </div>
   );
 }
+
+export { CheckItim };  // เพิ่มบรรทัดนี้เพื่อส่งออกคอมโพเนนต์ 'CheckItim'
