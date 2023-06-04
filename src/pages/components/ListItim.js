@@ -5,7 +5,7 @@ import swal from 'sweetalert2';
 import { Quantity } from './Quantity';
 import Listmore from './Listmore';
 
-const ListItim = () => {
+export default function ListItim() {
     const [listItim, setListItim] = useState([]);
     const [detailItim, setDetailItim] = useState({})
     const [quantity, setQuantity] = useState(0);
@@ -319,5 +319,3 @@ const ListItim = () => {
         </>
     );
 };
-
-export default ListItim;

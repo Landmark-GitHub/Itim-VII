@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react'
 
-const Header = (props) => {
+export default function HeaderTest(props) {
 
     const [date, setDate] = useState(props.date);
     // const [activity, setActivity] = useState('AddItim');
@@ -57,5 +57,3 @@ const Header = (props) => {
         </header>
     );
 }
-
-export default Header;
