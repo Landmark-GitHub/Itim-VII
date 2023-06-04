@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Table } from './Table';
 import Listmore from './Listmore';
 
-export const CheckItim = () => {
+const CheckItim = () => {
   const router = useRouter();
   const activity = router.query.activity;
   const date = router.query.date;
@@ -26,6 +26,8 @@ export const CheckItim = () => {
     </div>
   );
 };
+
+export default CheckItim;
 
 
 

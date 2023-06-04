@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { Listmore } from './Listmore';
 
-export const Table = () => {
+const Table = () => {
   const router = useRouter();
   const { activity, date, name } = router.query;
 
@@ -336,3 +336,6 @@ export const Table = () => {
     </>
   );
 };
+
+
+export default Table;
