@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
-const Quantity = (props) => {
+export default function Quantity(props) {
  
     const {date, name, nameitim} = props
 
@@ -46,5 +46,3 @@ const Quantity = (props) => {
     </>
   )
 }
-
-export default Quantity;
