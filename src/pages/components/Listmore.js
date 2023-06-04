@@ -13,6 +13,10 @@ const Listmore = () => {
 
     const [titleOther, setTitleOther] = useState(null);
     const [moneyOther, setMoneyOther] = useState(null);
+
+    const [dryice, setDryIce] = useState(0);
+    const [dryicePiece, setDryIcePiece] = useState(25);
+    const [dryiceBath, setDryIceBath] = useState(dryice*dryicePiece);
   
     const handleOtherInputChange = (event) => {
       setTitleOther(event.target.value);
@@ -56,50 +60,87 @@ const Listmore = () => {
         <>
             <div className="grid grid-cols-4 gap-2 w-full h-20">
 
-                <div className={`rounded-xl drop-shadow-xl ring-2 ring-gray-300  ${homeChecked ? 'bg-lime-400' : 'bg-white'}`}
-                    onClick={() => { setDryIceSelected(!homeChecked) }}>
+                <div className={`rounded-xl drop-shadow-xl ring-2 ring-gray-300  ${dryice > 0 ? 'ring-2 ring-gray-700' : 'bg-white'}`}
+                    onClick={() => { setDryIceSelected(!dryIceSelected) }}>
                         <div className='pr-8'>
                             <div className='grid grid-cols-2 gap-2'>
                                 <div className='flex text-7xl font-bold justify-end items-center'>
-                                    <label>8</label>
+                                    <label>{dryice}</label>
                                 </div>
                                 <div className='text-2xl pt-2 font-bold text-left'>
                                     <label>DRYICE</label>
-                                    <p>100</p>
+                                    <p>{dryiceBath}</p>
                                 </div>
                             </div>
                         </div>
                 </div>
 
-                <div className={`inline-flex text-center text-4xl font-bold items-center px-3 rounded-xl drop-shadow-xl ring-2 ring-gray-300  ${homeChecked ? 'bg-lime-400' : 'bg-white'}`}
+                <div className={`inline-flex text-center text-4xl font-bold items-center px-3 rounded-xl drop-shadow-xl ring-2 ring-gray-300  ${homeChecked ? 'ring-2 ring-gray-700' : 'bg-white'}`}
                     onClick={() => { setHomeChecked(!homeChecked) }}>
                     Home
                 </div>
 
-                <div className={`inline-flex text-center text-4xl font-bold items-center px-3 rounded-xl drop-shadow-xl ring-2 ring-gray-300  ${carChecked ? 'bg-lime-400' : 'bg-white'}`}
+                <div className={`inline-flex text-center text-4xl font-bold items-center px-3 rounded-xl drop-shadow-xl ring-2 ring-gray-300  ${carChecked ? 'ring-2 ring-gray-700' : 'bg-white'}`}
                     onClick={() => { setCarChecked(!carChecked) }}>
                     Car
                 </div>
 
-                <div className={`inline-flex text-center text-4xl font-bold items-center px-3 rounded-xl drop-shadow-xl ring-2 ring-gray-300  ${
-                        titleOther != '' ? 'bg-lime-400' : 'bg-white'
-                    }`}
+                <div className={`inline-flex text-center text-4xl font-bold items-center p-1 rounded-xl drop-shadow-xl ring-2 ring-gray-300 ${titleOther != null || '' ? 'ring-2 ring-gray-700':''} `}
                     onClick={() => {
                         setOtherChecked(!otherChecked);
                     }}
                     >
-                    {titleOther != '' ? 
+                    {titleOther === '' || null ? 
                     <>
-                        <div>
-                            <h1>{titleOther}</h1>
-                            <h1>{moneyOther}</h1>
-                        </div>
+                        Other
                     </>
                     :
-                    <>Other</>}
+                    <><div className='w-full grid grid-cols-2 items-center'>
+                            <h1>{titleOther}</h1>
+                            <p>{moneyOther}</p>
+                        </div></>}
                 </div>
 
             </div>
+
+            {dryIceSelected && (
+                <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
+                    <div className="bg-white rounded-lg shadow-xl transform transition-all sm:w-3/4 md:w-2/3 lg:w-1/2 p-4">
+                        <h1 className="text-4xl font-bold mb-4">DRYICE</h1>
+                        <p>{dryicePiece}</p>
+                        <div className="flex flex-col gap-4 text-xl">
+                            <label className=' font-bold'>Quantity</label>
+                            <input
+                                type="number"
+                                className="border border-gray-300 rounded-md p-2"
+                                placeholder="Quantity"
+                                value={dryice}
+                                onChange={(event) => { setDryIce(event.target.value)
+                                             setDryIceBath((event.target.value)*(dryicePiece)) }}
+                            />
+                        </div>
+                        <div className="flex justify-end mt-4">
+                            <button
+                                className="px-4 py-2 bg-gray-400 text-white rounded-md mr-2"
+                                onClick={() => {
+                                    setDryIceSelected(!dryIceSelected);
+                                }}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="px-4 py-2 bg-green-400 text-white rounded-md"
+                                onClick={() => {
+                                    setDryIceSelected(!dryIceSelected)
+                                    console.log((dryiceBath))
+                                }}
+                            >
+                                Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {otherChecked && (
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75">
