@@ -38,7 +38,7 @@ export default function HeaderTest(props) {
                     <label className='text-2xl'>  Status : {activity}</label>
                 </div>
 
-                <div>
+                <div className='bg-red-300 flex items-center'>
                     <input type='date' value={date} onChange={settingDate}  />
                 </div>
 
