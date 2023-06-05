@@ -28,17 +28,15 @@ export default function HeaderTest(props) {
     return (
         <header className='h-1/6 pb-0.5 bg-white shadow-xl'>
 
-            <div className={`flex justify-between bg-white h-3/4 px-2`}>
+            <div className={`flex justify-between items-center bg-white h-3/4 px-2`}>
 
                 <div className='p-2'>
-                    <br></br>
-                    <label className={`text-gray-800 text-4xl`}>{name !== 'undefined' ? name : ''}</label>
-                    <br></br>
+                    <h1 className={`text-gray-800 text-4xl`}>{name !== 'undefined' ? name : ''}</h1>
                     <label className='text-2xl'>{date}</label>
                     <label className='text-2xl'>  Status : {activity}</label>
                 </div>
 
-                <div className='bg-red-300 flex items-center'>
+                <div>
                     <input type='date' value={date} onChange={settingDate}  />
                 </div>
 

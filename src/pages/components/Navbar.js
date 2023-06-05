@@ -128,7 +128,6 @@ const Navbar = (props) => {
     }
   };
   
-
   const addMember = async (event) => {
     event.preventDefault();
     const newMember = {
@@ -148,7 +147,6 @@ const Navbar = (props) => {
     }
   }
 
-
   useEffect(() => {
     axiosMember();
   }, [])
@@ -161,7 +159,7 @@ const Navbar = (props) => {
         </div>
         <div className={`bg-white overflow-x-auto h-5/6 w-full`}>
           {Array.isArray(listMember) && listMember.map((member) => (
-            <div key={member.member_id} className={`bg-gray-200 m-2 p-2 text-center rounded-lg ${detailMember.id === member.member_id || name === member.member_name? 'bg-gray-500' : ''}`}
+            <div key={member.member_id} className={`bg-gray-200 m-2 p-2 text-center rounded-lg ${detailMember.id === member.member_id ? 'bg-gray-500' : ''}`}
               onClick={() => selectMember(member.member_id, member.member_name, member.member_phone, member.member_idcard)}>
               <div className="text-lg whitespace-pre duration-700">
                 <h2 className={`text-xl font-bold`}>

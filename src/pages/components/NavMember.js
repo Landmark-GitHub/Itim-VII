@@ -147,7 +147,7 @@ const NavMember = () => {
     <>
       <nav className='h-full w-1/10 drop-shadow-xl'>
         <div className={`h-1/6 drop-shadow-xl flex text-center items-center justify-center cursor-pointer bg-white`}>
-          <h1 className={`text-3xl text-gray-800`}>{activity} {nname} {date}</h1>
+          <h1 className={`text-3xl text-gray-800`}>Member</h1>
         </div>
         <div className={`bg-white overflow-x-auto h-5/6 w-full`}>
           {Array.isArray(listMember) && listMember.map((member) => (

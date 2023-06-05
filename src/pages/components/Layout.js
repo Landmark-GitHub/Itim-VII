@@ -20,7 +20,7 @@ export default function Layout({ children, ...props }) {
     return (
         <>
         <main className='flex h-screen w-screen'>
-            <div div="true" className={`${openMenu ? 'w-3/12' : 'w-0 opacity-0 translate-x-(-28)'} overflow-hidden duration-300`}>
+            <div div="true" className={`${openMenu ? 'w-3/12 duration-300' : 'w-0 opacity-0 translate-x-(-28)'} overflow-hidden duration-300`}>
                 <NavMember
                 />
             </div>
