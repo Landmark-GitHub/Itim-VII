@@ -12,4 +12,8 @@ export default function itimdb(req, res) {
       res.status(200).json(results);
     }
   );
+
+  if (connection.status === 500) {
+    res.send('Hello');
+  }
 }
