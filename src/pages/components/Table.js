@@ -271,9 +271,10 @@ export default function Table() {
       <div className='bg-gray-300 text-4xl p-3 mt-3 rounded-xl'>
         <h1 className='text-right '>Total : {sumMoney()} </h1>
       </div>
+
       <div className="h-full grid grid-cols-3 gap-2 my-2 p-2 rounded-xl bg-gray-300">
 
-        <div className='col-span-2'>
+        <div className='col-span-2 w-full'>
           <table class="tabl-auto w-full text-3xl text-left">
             <thead className='bg-white'>
               <tr>

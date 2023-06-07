@@ -1,22 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import LayoutTest from "./components/LayoutTest";
 import ListItim from './components/ListItim';
-import {mysql} from 'mysql2';
 
 const Requisition = () => {
 
-    const connection = mysql.createPool(process.env.DATABASE_URL);
-    const [data, setData] = useState([])
-
-    useEffect(() => {
-        connection.query(
-            'SELECT * FROM `itim`',
-            function (err, results, fields) {
-                // res.status(200).json(results);
-                setData(results);
-            }
-        );
-    })
+    
 
     return (
         <LayoutTest

@@ -21,10 +21,9 @@ export default function CheckItim() {
       <div className="text-5xl py-4">
         <h1>Check Bill</h1>
       </div>
-      <Table
-      />
+      <Table/>
     </div>
   );
 }
 
-export { CheckItim };  // เพิ่มบรรทัดนี้เพื่อส่งออกคอมโพเนนต์ 'CheckItim'
+export { CheckItim };
