@@ -15,5 +15,5 @@ const connection = mysql.createConnection(process.env.DATABASE_URL);
 
 
 export default function handler(req, res) {
-    res.status(200).json({ name: 'John Doe' });
+    res.status(200).json({ name: 'John Do Hee' });
 }
