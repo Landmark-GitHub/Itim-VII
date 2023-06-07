@@ -1,11 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import mysql from 'mysql2';
 
-const connection = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    database: process.env.DB_DATABASE,
-});
+const connection = mysql.createPool(process.env.DATABASE_URL);
 
 export default async function dynamicHandler(req, res) {
     const { params } = req.query;

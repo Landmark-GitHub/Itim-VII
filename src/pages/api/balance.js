@@ -1,11 +1,7 @@
 const mysql = require('mysql2');
 
 // create the connection to database
-const dream_itim = mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    database: process.env.DB_DATABASE,
-});
+const dream_itim = mysql.createPool(process.env.DATABASE_URL);
 
 export default function handler(req, res) {
 

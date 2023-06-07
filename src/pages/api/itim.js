@@ -2,11 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 const mysql = require('mysql2');
 
 // create the connection to the database
-const connection = mysql.createPool({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  database: process.env.DB_DATABASE,
-});
+const connection = mysql.createPool(process.env.DATABASE_URL);
 
 export default function itimdb(req, res) {
   // simple query

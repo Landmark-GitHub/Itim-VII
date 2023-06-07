@@ -1,11 +1,7 @@
 const mysql = require('mysql2');
 
 // create the connection to database
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  database: process.env.DB_DATABASE,
-});
+const connection = mysql.createPool(process.env.DATABASE_URL);
 
 export default function handler(req, res) {
 
@@ -26,7 +22,7 @@ export default function handler(req, res) {
         }
         );
     } else {
-        res.status(405).json({ message: 'Method Not Allowed' });
+        res.status(400).json({ message: 'Method Not Allowed' });
     }
 }
 
