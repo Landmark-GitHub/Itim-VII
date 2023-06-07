@@ -8,7 +8,7 @@ export default function itim(req, res) {
   connection.query(
     'SELECT * FROM `itim`',
     function (err, results, fields) {
-      NextApiResponse.status(200).json(results);
+        res.status(200).json({results});
     }
   );
 
