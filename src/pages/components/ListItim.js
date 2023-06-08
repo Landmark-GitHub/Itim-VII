@@ -108,13 +108,13 @@ export default function ListItim() {
         };
 
         try {
-            const response = await axios.put(`http://localhost:3000/api/requisition/`, newItem);
+            const response = await axios.put(`https://important-shrug-bee.cyclic.app/putRequisition/`, newItem);
 
             if (response.status === 200) {
                 console.log(newItem);
                 swal.fire({
                     icon: 'success',
-                    title: 'Save success',
+                    title: 'Update success',
                     html: `Date: ${newItem.date} <br> Name: ${newItem.name} <br> Item: ${newItem.nameitim} 
                       <br> Type Item: ${newItem.typeitem} <br> Quantity: ${newItem.quantity}`
                 });
