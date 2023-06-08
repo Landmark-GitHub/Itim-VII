@@ -215,48 +215,48 @@ export default function ListItim() {
     return (
         <>
             <div div="true" className='h-4/6'>
-            <div className='p-2 my-2 h-3/4 w-full font-sans grid grid-rows-3 gap-2 overflow-y-auto' style={{ gridAutoFlow: 'column' }}>
-                {Array.isArray(listItim) &&
-                listItim.map(item => {
-                    const selectedQuantity = allquantity.find(it => it.nameitim === item.itim_name) || { quantity: 0 };
-                    return (
-                    <div key={item.itim_id} className='bg-white drop-shadow-2xl w-80 rounded-lg cursor-pointer' onClick={() => selectItim(item.itim_name, item.itim_type, item.itim_piece)}>
-                        <SkeletonTheme baseColor="#c8d1d1" highlightColor="#ffffff">
-                        {loader ? (
-                            <div className='grid grid-cols-2 gap-1 w-full full'>
-                            <div className='bg-gray-200 flex items-center justify-center m-2 '>
-                                <RingLoader color="#2d2d2d" />
-                            </div>
-                            <div className='my-2'>
-                                <Skeleton height={40} width={150} />
-                                <Skeleton height={20} width={150} />
-                                <Skeleton height={20} width={150} />
-                                <div className='mr-2 mt-2 flex'>
+                <div className='p-2 my-2 h-3/4 w-full font-sans grid grid-rows-3 gap-2 overflow-y-auto' style={{ gridAutoFlow: 'column' }}>
+                    {Array.isArray(listItim) &&
+                    listItim.map(item => {
+                        const selectedQuantity = allquantity.find(it => it.nameitim === item.itim_name) || { quantity: 0 };
+                        return (
+                        <div key={item.itim_id} className='bg-white drop-shadow-2xl w-80 rounded-lg cursor-pointer' onClick={() => selectItim(item.itim_name, item.itim_type, item.itim_piece)}>
+                            <SkeletonTheme baseColor="#c8d1d1" highlightColor="#ffffff">
+                            {loader ? (
+                                <div className='grid grid-cols-2 gap-1 w-full full'>
+                                <div className='bg-gray-200 flex items-center justify-center m-2 '>
+                                    <RingLoader color="#2d2d2d" />
+                                </div>
+                                <div className='my-2'>
                                     <Skeleton height={40} width={150} />
+                                    <Skeleton height={20} width={150} />
+                                    <Skeleton height={20} width={150} />
+                                    <div className='mr-2 mt-2 flex'>
+                                        <Skeleton height={40} width={150} />
+                                    </div>
                                 </div>
-                            </div>
-                            </div>
-                        ) : (
-                            <div className='grid grid-cols-2 gap-1 w-full h-full'>
-                            <div className='bg-gray-300 rounded-lg m-2'>
-                                IMGGGGGG
-                            </div>
-                            <div className='py-2 font-bold cursor-pointer'>
-                                <h1 className='text-2xl mt-2'>{item.itim_name}</h1>
-                                <p className='text-lg'>Piece: {item.itim_piece}</p>
-                                <p className='text-lg'>Type: {item.itim_type}</p>
-                                <div className='mr-2 text-5xl flex justify-between items-center'>
-                                    <h2 className="font-bold text-2xl">Quantity</h2>
-                                    <h2 className="font-bold">{selectedQuantity.quantity}</h2>
                                 </div>
-                            </div>
-                            </div>
-                        )}
-                        </SkeletonTheme>
-                    </div>
-                    );
-                })}
-            </div>
+                            ) : (
+                                <div className='grid grid-cols-2 gap-1 w-full h-full'>
+                                <div className='bg-gray-300 rounded-lg m-2'>
+                                    IMGGGGGG
+                                </div>
+                                <div className='py-2 font-bold cursor-pointer'>
+                                    <h1 className='text-2xl mt-2'>{item.itim_name}</h1>
+                                    <p className='text-lg'>Piece: {item.itim_piece}</p>
+                                    <p className='text-lg'>Type: {item.itim_type}</p>
+                                    <div className='mr-2 text-5xl flex justify-between items-center'>
+                                        <h2 className="font-bold text-2xl">Quantity</h2>
+                                        <h2 className="font-bold">{selectedQuantity.quantity}</h2>
+                                    </div>
+                                </div>
+                                </div>
+                            )}
+                            </SkeletonTheme>
+                        </div>
+                        );
+                    })}
+                </div>
             </div>
 
             <div className='h-2/6 p-2'>
