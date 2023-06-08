@@ -35,7 +35,8 @@ const NavMember = () => {
 
     try {
       //https://important-shrug-bee.cyclic.app/members
-      const req = await axios.get('https://important-shrug-bee.cyclic.app/members')
+      //const req = await axios.get('https://important-shrug-bee.cyclic.app/members')
+      const req = await axios.get('http://localhost:3001/members')
       setListMember(req.data)
     } catch (error) {
       console.log(`Axios List Member : ${error}`);
@@ -66,7 +67,8 @@ const NavMember = () => {
       member_idcard: idcard === '' ? detailMember.idcard : idcard,
     };
     try {
-      const response = await axios.put('http://localhost:3000/api/member/', newDetail);
+      // const response = await axios.put('http://localhost:3000/api/member/', newDetail);
+      const response = await axios.put('http://localhost:3001/putMembers', newDetail);
       if (response.status === 200) {
         axiosMember();
         setModalEdit(!modalEdit)
@@ -108,7 +110,8 @@ const NavMember = () => {
   
         if (willDelete) {
           // Perform the delete operation
-          const response = await axios.delete(`http://localhost:3000/api/member/${id}`);
+          //const response = await axios.delete(`http://localhost:3000/api/member/${id}`);
+          const response = await axios.delete(`http://localhost:3001/deleteMember/${id}`);
           axiosMember();
           swal("Remove Member Success", "The member has been deleted.", "success");
         }
@@ -131,7 +134,10 @@ const NavMember = () => {
     console.log(newMember)
 
     try {
+  
       const response = await axios.post('https://important-shrug-bee.cyclic.app/postMembers',newMember)
+      //const response = await axios.post('http://localhost:3001/postMembers',newMember)
+
       axiosMember();
       setModalAdd(!modalAdd);
     } catch (error) {
