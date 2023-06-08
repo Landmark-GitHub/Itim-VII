@@ -25,7 +25,7 @@ export default function Layout({ children, ...props }) {
                 />
             </div>
 
-            <div div="true" className={`${openMenu ? 'w-9/12' : 'w-full'} duration-300 h-screen`}>
+            <div div="true" className={`${openMenu ? 'w-9/12' : 'w-full'} duration-300`}>
                 <Header
                 >
                 </Header>
