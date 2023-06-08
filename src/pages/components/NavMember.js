@@ -131,7 +131,7 @@ const NavMember = () => {
     console.log(newMember)
 
     try {
-      const response = await axios.post('https://important-shrug-bee.cyclic.app/members', newMember)
+      const response = await axios.post('https://important-shrug-bee.cyclic.app/postMembers', newMember)
       axiosMember();
       setModalAdd(!modalAdd);
     } catch (error) {
