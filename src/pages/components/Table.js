@@ -19,7 +19,7 @@ export default function Table() {
   const axiosTypeItim = async () => {
     console.log('start axios List Type Itim');
     try {
-      const response = await axios.get('http://localhost:3000/api/itim');
+      const response = await axios.get('https://important-shrug-bee.cyclic.app/itim/');
       const itimData = response.data.reduce((acc, item) => {
         const existingIndex = acc.findIndex((obj) => obj.itim_type === item.itim_type);
         if (existingIndex !== -1) {
@@ -39,8 +39,9 @@ export default function Table() {
 
   const axiosNew = async () => {
     console.log('Start Axios New Query');
+    const data = {}
     try {
-      const response = await axios.get(`/api/checkitim/GET/${date}/${name}`, {
+      const response = await axios.get(`https://important-shrug-bee.cyclic.app/requisition`, {
         params: {
           date: date,
           name: name,
