@@ -130,14 +130,14 @@ const NavMember = () => {
 
     console.log(newMember)
 
-    try {
-      const response = await axios.post('https://important-shrug-bee.cyclic.app/members', newMember)
-      axiosMember();
-      setModalAdd(!modalAdd);
-    } catch (error) {
-      console.error('Error:', error);
-      alert(`Error Add Member: ${error}`);
-    }
+    // try {
+    //   const response = await axios.post('https://important-shrug-bee.cyclic.app/members', newMember)
+    //   axiosMember();
+    //   setModalAdd(!modalAdd);
+    // } catch (error) {
+    //   console.error('Error:', error);
+    //   alert(`Error Add Member: ${error}`);
+    // }
   }
 
   useEffect(() => {
