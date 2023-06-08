@@ -128,8 +128,10 @@ const NavMember = () => {
       member_idcard: idcard,
     };
 
+    console.log(newMember)
+
     try {
-      const response = await axios.post('https://important-shrug-bee.cyclic.app/members/', newMember)
+      const response = await axios.post('https://important-shrug-bee.cyclic.app/members', newMember)
       axiosMember();
       setModalAdd(!modalAdd);
     } catch (error) {
