@@ -73,7 +73,7 @@ export default function ListItim() {
 
 
         try {
-            const response = await axios.post('https://important-shrug-bee.cyclic.app/postRequisition', newItem);
+            const response = await axios.post('https://important-shrug-bee.cyclic.app/postRequisition/', newItem);
 
             if (response.status === 200) {
                 // console.log(newItem);
