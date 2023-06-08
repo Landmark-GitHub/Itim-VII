@@ -108,7 +108,7 @@ export default function ListItim() {
         };
 
         try {
-            const response = await axios.put(`https://important-shrug-bee.cyclic.app/putRequisition/`, newItem);
+            const response = await axios.put(`http://localhost:3000/api/requisition/`, newItem);
 
             if (response.status === 200) {
                 console.log(newItem);
