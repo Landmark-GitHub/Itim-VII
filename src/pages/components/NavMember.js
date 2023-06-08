@@ -135,8 +135,8 @@ const NavMember = () => {
       axiosMember();
       setModalAdd(!modalAdd);
     } catch (error) {
-      console.error('Error:', error);
-      alert(`Error Add Member: ${error}`);
+      console.log('Error:', error);
+      // alert(`Error Add Member: ${error}`);
     }
   }
 
