@@ -141,7 +141,7 @@ export default function ListItim() {
             }, 1000);
 
             //https://important-shrug-bee.cyclic.app/itim
-            const response = await axios.get('https://important-shrug-bee.cyclic.app/itim', {
+            const response = await axios.get('https://important-shrug-bee.cyclic.app/itim/', {
                 cancelToken: source.token,
             });
 
@@ -178,7 +178,7 @@ export default function ListItim() {
             // setLoader(!loader);
             // http://localhost:3000/api/requisition/2023-05-24/ShivHkU
             // const response2 = await axios.get(`http://localhost:3000/api/requisition/${date}/${name}`,);
-            const response2 = await axios.get(`http://localhost:3000/api/requisition/`, {
+            const response2 = await axios.get(`https://important-shrug-bee.cyclic.app/requisition/`, {
                 params: {
                     date: date,
                     name: name,

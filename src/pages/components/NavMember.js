@@ -120,7 +120,6 @@ const NavMember = () => {
     }
   };
   
-
   const addMember = async (event) => {
     event.preventDefault();
     const newMember = {
@@ -130,7 +129,7 @@ const NavMember = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:3000/api/member', newMember)
+      const response = await axios.post('https://important-shrug-bee.cyclic.app/members', newMember)
       axiosMember();
       setModalAdd(!modalAdd);
     } catch (error) {
