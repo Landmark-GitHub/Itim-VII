@@ -140,7 +140,8 @@ export default function ListItim() {
                 source.cancel('Request timeout');
             }, 1000);
 
-            const response = await axios.get('http://localhost:3000/api/itim', {
+            //https://important-shrug-bee.cyclic.app/itim
+            const response = await axios.get('https://important-shrug-bee.cyclic.app/itim', {
                 cancelToken: source.token,
             });
 

@@ -43,7 +43,8 @@ const Navbar = (props) => {
   const axiosMember = async () => {
 
     try {
-      const req = await axios.get('http://localhost:3000/api/member')
+      //https://important-shrug-bee.cyclic.app/members
+      const req = await axios.get('https://important-shrug-bee.cyclic.app/members')
       setListMember(req.data)
     } catch (error) {
       console.log(`Axios List Member : ${error}`);
