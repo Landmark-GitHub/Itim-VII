@@ -41,7 +41,7 @@ export default function Table() {
     console.log('Start Axios New Query');
     const data = {}
     try {
-      const response = await axios.get(`https://important-shrug-bee.cyclic.app/requisition`, {
+      const response = await axios.get(`https://important-shrug-bee.cyclic.app/newItim`, {
         params: {
           date: date,
           name: name,
