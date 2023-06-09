@@ -39,7 +39,7 @@ export default function Table() {
 
   const axiosNew = async () => {
     console.log('Start Axios New Query');
-    const data = {}
+    
     try {
       const response = await axios.get(`https://important-shrug-bee.cyclic.app/newItim`, {
         params: {
@@ -194,32 +194,6 @@ export default function Table() {
                 <td className="p-4">{oldQuantity}</td>
                 <td className="p-4">{newQuantity}</td>
                 <td className="p-4">{totalQuantity}</td>
-                {/* <td className="py-4 flex justify-center">
-                  {inputCheck ?
-                    <>
-                        <input className='border border-gray-400 rounded-lg w-14 h-full text-center'
-                        type= "number"
-                        placeholder= {balanceQuantity}
-                        defaultValue= {balanceQuantity}
-                        onChange={(event) => {setInputBalance(event.target.value)}}
-                        />
-                        <button className={`rounded-lg w-24 ml-2 text-white ${quantityBalance(typeItim) != null ? 'bg-blue-500' : 'bg-lime-500'}`}
-                        onClick={() => handleSaveBalance(typeItim)}
-                        >
-                          {quantityBalance(typeItim) != null ? 'Update' : 'Save'}
-                        </button>
-                    </>
-                    :
-                    <>
-                        <label className='border border-gray-400 rounded-lg w-14 h-full'>
-                          {balanceQuantity}
-                        </label>
-                        <button className={` bg-gray-300 rounded-lg w-24 ml-2 text-black`}
-                          onClick={() => { setinputCheck(!inputCheck) }}>
-                          edit
-                        </button>
-                    </>}
-                </td> */}
                 <td className="py-4 flex justify-center">
                   {inputCheck ?
                     <>
