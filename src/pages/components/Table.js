@@ -107,6 +107,7 @@ export default function Table() {
   // };
 
   const handleSaveBalance = async (typeItim) => {
+
     const itimDetail = {
       date: date,
       name: name,
@@ -114,26 +115,34 @@ export default function Table() {
       quantity: inputBalance,
     };
 
-    console.log(itimDetail);
+    if (inputBalance === null) {
+      setInputBalance(null);
+      console.log('Addsdasd success' + inputBalance );
+      setinputCheck(!inputCheck)
+    } else {
+      let check = balanceItim.find((i) => i.typeitim === typeItim )? true : false
 
-    if (inputBalance > 0) {
-      const check = balanceItim.find((i) => i.typeitim === typeItim )?.quantity || 0;
-      if (check > 0) {
+      console.log(check)
+
+      if (check) {
+
         try {
-          const addBalance = await axios.put('https://important-shrug-bee.cyclic.app/putBalance', itimDetail);
-          if (addBalance.status === 200) {
-            axiosBalance();
-            setInputBalance(null);
-            console.log('Add success');
-            setinputCheck(!inputCheck)
-          } else {
-            console.log('Error');
-          }
-        } catch (error) {
-          console.error('Error:', error);
-          alert(`Error update balance: ${error}`);
-        }
-      }else {
+              const addBalance = await axios.put('https://important-shrug-bee.cyclic.app/putBalance', itimDetail);
+              if (addBalance.status === 200) {
+                axiosBalance();
+                setInputBalance(null);
+                console.log('Add success');
+                setinputCheck(!inputCheck)
+              } else {
+                console.log('Error');
+              }
+            } catch (error) {
+              console.error('Error:', error);
+              alert(`Error update balance: ${error}`);
+            }
+
+      } else {
+
         try {
           const addBalance = await axios.post('https://important-shrug-bee.cyclic.app/postBalance', itimDetail);
           if (addBalance.status === 200) {
@@ -149,12 +158,7 @@ export default function Table() {
           alert(`Error update balance: ${error}`);
         }
       }
-
-    } else {
-      console.log('Cancel')
-      setinputCheck(!inputCheck)
     }
-
   };
 
   const sumMoney = () => {
@@ -173,8 +177,8 @@ export default function Table() {
     return total;
   }
 
-  const quantityBalance = (itim, name) => {
-    const valume = balanceItim.find((i) => i.typeitim === itim)?.quantity || null;
+  const quantityBalance = (itim) => {
+    const valume = balanceItim.find((i) => i.typeitim === itim)? true : false;
     return valume;
   }
 
@@ -227,10 +231,10 @@ export default function Table() {
                         placeholder= {balanceQuantity}
                         onChange={(event) => {setInputBalance(event.target.value)}}
                       />
-                      <button className={`rounded-lg p-2 w-28 ml-2 text-white ${quantityBalance(typeItim) != null ? 'bg-blue-500' : 'bg-lime-500'}`}
+                      <button className={`rounded-lg p-2 w-28 ml-2 text-white ${quantityBalance(typeItim) === true ? 'bg-blue-500' : 'bg-lime-500'}`}
                       onClick={() => handleSaveBalance(typeItim)}
                       >
-                        {quantityBalance(typeItim) != null ? 'Update' : 'Save'}
+                        {quantityBalance(typeItim) === true ? 'Update' : 'Save'}
                       </button>
                     </>
                     :

@@ -1,11 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Select, Option } from "@material-tailwind/react";
 
 import { Fragment } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const Listmore = () => {
+
+    const router = useRouter();
+    const date = router.query.date;
+    const name = router.query.name;
+
     const [dryIceSelected, setDryIceSelected] = useState(false);
     const [homeChecked, setHomeChecked] = useState(false);
     const [carChecked, setCarChecked] = useState(false);
@@ -14,9 +21,11 @@ const Listmore = () => {
     const [titleOther, setTitleOther] = useState(null);
     const [moneyOther, setMoneyOther] = useState(null);
 
-    const [dryice, setDryIce] = useState(0);
+    const [dryice, setDryIce] = useState([]);
+    const [quantity, setQuantity] = useState(0);
     const [dryicePiece, setDryIcePiece] = useState(25);
-    const [dryiceBath, setDryIceBath] = useState(dryice*dryicePiece);
+    const [dryiceBath, setDryIceBath] = useState((dryice.find((i) => i.name === name)?.quantity || 0) * dryicePiece);
+
   
     const handleOtherInputChange = (event) => {
       setTitleOther(event.target.value);
@@ -38,17 +47,12 @@ const Listmore = () => {
         setCarChecked(event.target.checked);
     };
 
-    // const handleOtherInputChange = (event) => {
-    //     setOtherInput(event.target.value);
-    // };
 
     const handleSave = () => {
         console.log(titleOther)
         if (titleOther === '') {
             setMoneyOther(null)
             setOtherChecked(null)
-            // console.log({title: titleOther,
-            //     money: moneyOther})
         } else {
             // console.log({title: titleOther,
             //              money: moneyOther})
@@ -56,20 +60,83 @@ const Listmore = () => {
         setOtherChecked(!otherChecked)
     };
 
+    const axiosDryice = async () => {
+        try {
+            //https://important-shrug-bee.cyclic.app/
+            const req = await axios.get('https://important-shrug-bee.cyclic.app/getDryice/',{
+                params: {
+                    date: date,
+                    name: name
+                }
+            })
+            if (req.status === 200){
+                // console.log(req.data)
+                setDryIce(req.data);
+            }
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    const saveDryice = async () => {
+        const data = {
+            date: date,
+            name: name,
+            quantity: quantity,
+        }
+
+        // setDryIceBath((quantity)*(dryicePiece))
+
+        if (dryice) {
+
+            try {
+                const req = await axios.put('https://important-shrug-bee.cyclic.app/putDryice',data)
+                if(req.status === 200){
+                    axiosDryice();
+                    setDryIceSelected(!dryIceSelected);
+                }
+            } catch (err){
+    
+            }
+
+        } else {
+
+            try {
+                const req = await axios.post('https://important-shrug-bee.cyclic.app/postDryice',data)
+                if(req.status === 200){
+                    axiosDryice();
+                    setDryIceSelected(!dryIceSelected);
+                }
+            }catch(err){
+    
+            }
+        }
+
+    }
+
+    useEffect(() => {
+        axiosDryice();
+    }, [date, name])
+
+
+
     return (
         <>
             <div className="grid grid-cols-4 gap-2 w-full h-20">
 
-                <div className={`rounded-xl drop-shadow-xl ring-2 ring-gray-300  ${dryice > 0 ? 'ring-2 ring-gray-700' : 'bg-white'}`}
-                    onClick={() => { setDryIceSelected(!dryIceSelected) }}>
+                <div className={`rounded-xl drop-shadow-xl ring-2 ring-gray-300  ${(dryice.find((i) => i.name === name)?.quantity || 0) > 0? 'ring-2 ring-gray-700' : 'bg-white'}`}
+                    onClick={() => { setDryIceSelected(!dryIceSelected) }}
+                    // onClick={() => { console.log(dryice) }}
+                    >
                         <div className='pr-8'>
                             <div className='grid grid-cols-2 gap-2'>
                                 <div className='flex text-7xl font-bold justify-end items-center'>
-                                    <label>{dryice}</label>
+                                    <label>{dryice.find((i) => i.name === name)?.quantity || 0}</label>
                                 </div>
                                 <div className='text-2xl pt-2 font-bold text-left'>
                                     <label>DRYICE</label>
-                                    <p>{dryiceBath}</p>
+                                    <p>{(dryice.find((i) => i.name === name)?.quantity || 0) * dryicePiece}</p>
+                                    {/* <p>{dryiceBath}</p> */}
                                 </div>
                             </div>
                         </div>
@@ -113,10 +180,9 @@ const Listmore = () => {
                             <input
                                 type="number"
                                 className="border border-gray-300 rounded-md p-2"
-                                placeholder="Quantity"
-                                value={dryice}
-                                onChange={(event) => { setDryIce(event.target.value)
-                                             setDryIceBath((event.target.value)*(dryicePiece)) }}
+                                placeholder={dryice.find((i) => i.name === name)?.quantity || 0}
+                                // value={dryice.find((i) => i.name === name)?.quantity || 0}
+                                onChange={(event) => { setQuantity(event.target.value) }}
                             />
                         </div>
                         <div className="flex justify-end mt-4">
@@ -130,11 +196,7 @@ const Listmore = () => {
                             </button>
                             <button
                                 className="px-4 py-2 bg-green-400 text-white rounded-md"
-                                onClick={() => {
-                                    setDryIceSelected(!dryIceSelected)
-                                    console.log((dryiceBath))
-                                }}
-                            >
+                                onClick={saveDryice}>
                                 Save
                             </button>
                         </div>
