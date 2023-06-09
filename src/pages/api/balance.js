@@ -42,19 +42,4 @@ export default function handler(req, res) {
         }
       );
     } 
-    // else if (req.method === 'GET') {
-    //   const { date, name } = req.body;
-    //   dream_itim.query(
-    //   'SELECT * FROM `balance2` WHERE `date` = ? AND `name` = ?',
-    //   [date, name],
-    //   function (err, results, fields) {
-    //       if (err) {
-    //           console.error(err);
-    //           res.status(500).json({ message: 'Error' });
-    //           return;
-    //       } else {
-    //           res.status(200).json(results)
-    //       }
-    //   })
-    // }
 }

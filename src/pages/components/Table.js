@@ -30,6 +30,8 @@ export default function Table() {
         return acc;
       }, []);
       setTypeItim(itimData);
+      console.log('SHOW TYPEITIM');
+      console.log(itimData);
       console.log('end axios List Type Itim');
     } catch (error) {
       console.log(`Connection to itimDB: ${error}`);
@@ -39,14 +41,19 @@ export default function Table() {
 
   const axiosNew = async () => {
     console.log('Start Axios New Query');
-    
+
     try {
-      const response = await axios.get(`https://important-shrug-bee.cyclic.app/newItim`, {
+      //http://localhost:3001//newItim?date=2023-06-08&name=landmark
+      // const response = await axios.get(`http://localhost:3001/newItim`
+      const response = await axios.get(`https://important-shrug-bee.cyclic.app/newItim`
+      , {
         params: {
           date: date,
           name: name,
         },
       });
+      console.log('SHOW NEWITIM')
+      console.log(response.data)
       setNewItim(response.data);
       console.log('END Axios New Query');
     } catch (error) {
@@ -57,7 +64,15 @@ export default function Table() {
   const axiosBalance = async () => {
     console.log('Start Axios Balance Query');
     try {
-      const response = await axios.get(`/api/balance/${date}/${name}`);
+      const response = await axios.get(`https://important-shrug-bee.cyclic.app/balanceItim`, {
+      // const response = await axios.get(`/api/balance/`,{
+        params: {
+          date: date,
+          name: name
+        }
+      });
+      console.log('SHOW BALANCE')
+      console.log(response.data)
       setBalanceItim(response.data);
       console.log('END Axios Balance Query');
     } catch (error) {
@@ -69,12 +84,15 @@ export default function Table() {
   const axiosOld = async () => {
     console.log('Start Axios Old Query');
     try {
-      const response = await axios.get(`/api/itimold`, {
+      //https://important-shrug-bee.cyclic.app
+      const response = await axios.get(`https://important-shrug-bee.cyclic.app/oldItim`, {
         params: {
           date: date,
           name: name,
         },
       });
+      console.log('SHOW OLDITIM')
+      console.log(response.data)
       setOldItim(response.data);
       console.log('End Axios Old Query');
     } catch (err) {
@@ -83,10 +101,10 @@ export default function Table() {
     }
   };
 
-  const getTypeItimData = (typeItim, data) => {
-    const foundItem = data.find((item) => item.typeItim === typeItim);
-    return foundItem ? foundItem.total_quantity : 0;
-  };
+  // const getTypeItimData = (typeItim, data) => {
+  //   const foundItem = data.find((item) => item.typeItim === typeItim);
+  //   return foundItem ? foundItem.total_quantity : 0;
+  // };
 
   const handleSaveBalance = async (typeItim) => {
     const itimDetail = {
@@ -96,38 +114,44 @@ export default function Table() {
       quantity: inputBalance,
     };
 
-    const check = balanceItim.find((i) => i.typeitim === typeItim)?.quantity || 0;
+    console.log(itimDetail);
 
-    if (inputBalance != null){
-      
-      if (check !== null) {
+    if (inputBalance > 0) {
+      const check = balanceItim.find((i) => i.typeitim === typeItim )?.quantity || 0;
+      if (check > 0) {
         try {
-          await axios.put('http://localhost:3000/api/balance', itimDetail);
-          axiosNew();
-          axiosOld();
-          axiosBalance();
-          setInputBalance(null);
-          setinputCheck(!inputCheck)
-          setSelectType(null)
-          console.log('Update success');
+          const addBalance = await axios.put('https://important-shrug-bee.cyclic.app/putBalance', itimDetail);
+          if (addBalance.status === 200) {
+            axiosBalance();
+            setInputBalance(null);
+            console.log('Add success');
+            setinputCheck(!inputCheck)
+          } else {
+            console.log('Error');
+          }
         } catch (error) {
           console.error('Error:', error);
           alert(`Error update balance: ${error}`);
         }
-      } else {
+      }else {
         try {
-          await axios.post('http://localhost:3000/api/balance', itimDetail);
-          axiosBalance();
-          setInputBalance(null);
-          setinputCheck(!inputCheck)
-          setSelectType(null)
-          console.log('Save success');
+          const addBalance = await axios.post('https://important-shrug-bee.cyclic.app/postBalance', itimDetail);
+          if (addBalance.status === 200) {
+            axiosBalance();
+            setInputBalance(null);
+            console.log('Add success');
+            setinputCheck(!inputCheck)
+          } else {
+            console.log('Error');
+          }
         } catch (error) {
           console.error('Error:', error);
-          alert(`Error save balance: ${error}`);
+          alert(`Error update balance: ${error}`);
         }
       }
+
     } else {
+      console.log('Cancel')
       setinputCheck(!inputCheck)
     }
 
@@ -138,7 +162,7 @@ export default function Table() {
     for (let i = 0; i < typeItim.length; i++) {
       const itim = typeItim[i].itim_type;
       const oldQuantity = oldItim.find((o) => o.typeitim === itim)?.quantity || 0;
-      const newQuantity = newItim.find((n) => n.typeItim === itim)?.total_quantity || 0;
+      const newQuantity = newItim.find((n) => n.typeItim === itim)?.quantity || 0;
       const totalQuantity = parseInt(oldQuantity) + parseInt(newQuantity)
       const balanceQuantity = balanceItim.find((i) => i.typeitim === itim)?.quantity || 0;
       const soldOut = parseInt(totalQuantity) - parseInt(balanceQuantity)
@@ -182,8 +206,8 @@ export default function Table() {
 
             const typeItim = type.itim_type;
             const oldQuantity = oldItim.find((i) => i.typeitim === typeItim)?.quantity || 0;
-            const newQuantity = getTypeItimData(typeItim, newItim);
-            const balanceQuantity = balanceItim.find((i) => i.typeitim === typeItim & i.name === name)?.quantity || 0;
+            const newQuantity = newItim.find((i) => i.typeItim === typeItim)?.quantity || 0;
+            const balanceQuantity = balanceItim.find((i) => i.typeitim === typeItim)?.quantity || 0;
             const totalQuantity = parseInt(newQuantity) + parseInt(oldQuantity);
             const soldOut = totalQuantity - balanceQuantity;
             const money = soldOut * type.itim_piece;
@@ -194,47 +218,36 @@ export default function Table() {
                 <td className="p-4">{oldQuantity}</td>
                 <td className="p-4">{newQuantity}</td>
                 <td className="p-4">{totalQuantity}</td>
-                <td className="py-4 flex justify-center">
-                  {inputCheck ?
-                    <>
-                      {selectType === typeItim ? 
-                      <>
-                        <input className='border border-gray-400 rounded-lg w-14 h-full text-center'
+                <td className="p-4">
+                  <div className='flex justify-center'>
+                    {inputCheck && typeItim === selectType ?  
+                    <>                 
+                      <input className='border p-2 w-14 border-gray-400 rounded-lg h-full text-center'
                         type= "number"
                         placeholder= {balanceQuantity}
-                        defaultValue= {balanceQuantity}
                         onChange={(event) => {setInputBalance(event.target.value)}}
-                        />
-                        <button className={`rounded-lg w-24 ml-2 text-white ${quantityBalance(typeItim) != null ? 'bg-blue-500' : 'bg-lime-500'}`}
-                        onClick={() => handleSaveBalance(typeItim)}
-                        >
-                          {quantityBalance(typeItim) != null ? 'Update' : 'Save'}
-                        </button>
-                      </> 
-                      : 
-                      <>
-                        <label className='border border-gray-400 rounded-lg w-14 h-full'>
-                          {balanceQuantity}
-                        </label>
-                        <button className={` bg-gray-300 rounded-lg w-24 ml-2 text-black`}
-                          onClick={() => { setinputCheck(!inputCheck)
-                                          setSelectType(typeItim)}}>
-                          edit
-                        </button>
-                      </>
-                      }
+                      />
+                      <button className={`rounded-lg p-2 w-28 ml-2 text-white ${quantityBalance(typeItim) != null ? 'bg-blue-500' : 'bg-lime-500'}`}
+                      onClick={() => handleSaveBalance(typeItim)}
+                      >
+                        {quantityBalance(typeItim) != null ? 'Update' : 'Save'}
+                      </button>
                     </>
                     :
                     <>
-                        <label className='border border-gray-400 rounded-lg w-14 h-full'>
-                          {balanceQuantity}
-                        </label>
-                        <button className={` bg-gray-300 hover:bg-gray-500 hover:text-white rounded-lg w-24 ml-2 text-black`}
-                          onClick={() => { setinputCheck(!inputCheck)
-                                          setSelectType(typeItim)}}>
-                          edit
-                        </button>
-                    </>}
+                    <label className='border p-2 w-14 border-gray-400 rounded-lg h-full'
+                    onClick={() => { setinputCheck(!inputCheck)
+                                      setSelectType(typeItim)}}>
+                      {balanceQuantity}
+                    </label>
+                    <button className={` bg-gray-300 p-2 w-28 rounded-lg ml-2 text-black`}
+                      onClick={() => { setinputCheck(!inputCheck)
+                                      setSelectType(typeItim)}}>
+                      edit
+                    </button>
+                    </>
+                    }
+                  </div>  
                 </td>
                 <td className="p-4">{soldOut} * {type.itim_piece}</td>
                 <td className="p-4">{money}</td>

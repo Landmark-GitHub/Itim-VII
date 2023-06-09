@@ -10,11 +10,11 @@ export default async function dynamicHandler(req, res) {
   let query = 'SELECT ';
 
   if (date && name && typeitim) {
-    query += 'name, typeItim, SUM(quantity) AS total_quantity FROM `requisition` WHERE `date` = ? AND `name` = ? AND `typeitim` = ?';
+    query += 'name, typeItim, SUM(quantity) AS quantity FROM `requisition` WHERE `date` = ? AND `name` = ? AND `typeitim` = ?';
   } else if (date && name) {
-    query += 'name, typeItim, SUM(quantity) AS total_quantity FROM `requisition` WHERE `date` = ? AND `name` = ? GROUP BY `typeitim`';
+    query += 'name, typeItim, SUM(quantity) AS quantity FROM `requisition` WHERE `date` = ? AND `name` = ? GROUP BY `typeitim`';
   } else if (date) {
-    query += 'name, typeItim, SUM(quantity) AS total_quantity FROM `requisition` WHERE `date` = ? GROUP BY `name`, `typeitim`';
+    query += 'name, typeItim, SUM(quantity) AS quantity FROM `requisition` WHERE `date` = ? GROUP BY `name`, `typeitim`';
   }
 
   dream_itim.query(query, [date, name, typeitim], function (err, results, fields) {
