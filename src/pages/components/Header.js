@@ -60,7 +60,9 @@ const HeaderAddItim = () => {
           <label className="text-2xl">{date}</label>
           <label className="text-2xl"> Status : {activity}</label>
         </div>
-        <input type="date" value={date} onChange={settingDate} />
+        <div className='flex items-center'>
+          <input type="date" value={date} onChange={settingDate} />
+        </div>
       </div>
       <div className="flex justify-betweenp h-full p-1">
           <div className={`text-center text-xl w-full h-full ${activity === 'AddItim' ? 'bg-gray-500 text-white' : 'bg-gray-200'}`}
