@@ -129,6 +129,7 @@ const NavMember = () => {
       member_name: name,
       member_phone: phone,
       member_idcard: idcard,
+      member_type : 'd',
     };
 
     console.log(newMember)
@@ -136,7 +137,7 @@ const NavMember = () => {
     try {
   
       const response = await axios.post('https://important-shrug-bee.cyclic.app/postMembers',newMember)
-      //const response = await axios.post('http://localhost:3001/postMembers',newMember)
+      // const response = await axios.post('http://localhost:3001/postMembers',newMember)
 
       axiosMember();
       setModalAdd(!modalAdd);
