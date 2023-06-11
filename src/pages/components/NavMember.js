@@ -153,13 +153,13 @@ const NavMember = () => {
 
   return (
     <>
-      <nav className='h-full w-1/10 drop-shadow-xl'>
+      <nav className='h-screen w-1/10 drop-shadow-xl'>
         <div className={`h-1/6 drop-shadow-xl flex text-center items-center justify-center cursor-pointer bg-white`}>
           <h1 className={`text-3xl text-gray-800`}>Member</h1>
         </div>
         <div className={`bg-white overflow-x-auto h-5/6 w-full`}>
           {Array.isArray(listMember) && listMember.map((member) => (
-            <div key={member.member_id} className={`bg-gray-200 m-2 p-2 text-center rounded-lg ${detailMember.id === member.member_id || nname === member.member_name ? 'bg-gray-500' : ''}`}
+            <div key={member.member_id} className={`bg-gray-200 m-2 p-2 text-center rounded-lg ${detailMember.id === member.member_id || nname === member.member_name ? 'bg-gray-500 text-white' : ''}`}
               onClick={() => selectMember(member.member_id, member.member_name, member.member_phone, member.member_idcard)}>
               <div className="text-lg whitespace-pre duration-700">
                 <h2 className={`text-xl font-bold`}>

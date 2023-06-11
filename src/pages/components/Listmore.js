@@ -6,6 +6,7 @@ import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import swal from 'sweetalert2';
 
 const Listmore = () => {
 
@@ -87,29 +88,48 @@ const Listmore = () => {
 
         // setDryIceBath((quantity)*(dryicePiece))
 
-        if (dryice) {
+        let check = dryice.find((i) => i.name === name)?.quantity || 0
 
-            try {
-                const req = await axios.put('https://important-shrug-bee.cyclic.app/putDryice',data)
-                if(req.status === 200){
-                    axiosDryice();
-                    setDryIceSelected(!dryIceSelected);
-                }
-            } catch (err){
-    
-            }
+        if (check === 0) {
 
-        } else {
+            console.log('add')
 
             try {
                 const req = await axios.post('https://important-shrug-bee.cyclic.app/postDryice',data)
                 if(req.status === 200){
+                    swal.fire({
+                        icon: 'success',
+                        title: 'Save success',
+                        html: `Name: ${name}
+                               <br> Dryice: ${data.quantity}`
+                    });
                     axiosDryice();
                     setDryIceSelected(!dryIceSelected);
                 }
             }catch(err){
-    
+                console.log(err);
             }
+
+        } else {
+
+            console.log('update')
+
+            try {
+                const req = await axios.put('https://important-shrug-bee.cyclic.app/putDryice',data)
+                if(req.status === 200){
+                    swal.fire({
+                        icon: 'success',
+                        title: 'Update success',
+                        html: `Name: ${name}
+                               <br> Dryice: ${data.quantity}`
+                    });
+                    axiosDryice();
+                    setDryIceSelected(!dryIceSelected);
+                }
+            } catch (err){
+                console.log(err);
+            }
+
         }
 
     }
@@ -136,7 +156,6 @@ const Listmore = () => {
                                 <div className='text-2xl pt-2 font-bold text-left'>
                                     <label>DRYICE</label>
                                     <p>{(dryice.find((i) => i.name === name)?.quantity || 0) * dryicePiece}</p>
-                                    {/* <p>{dryiceBath}</p> */}
                                 </div>
                             </div>
                         </div>
